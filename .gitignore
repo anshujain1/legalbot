@@ -18,7 +18,7 @@ data/
 Thumbs.db
 
 # Ignore sensitive data
-backend/ingestion/state ai initiatives/
+backend\ingestion\pdf-files\State-wise AI initiatives
 *.pdf
 *.docx
 *.json
