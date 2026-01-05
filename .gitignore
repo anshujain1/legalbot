@@ -16,3 +16,10 @@ data/
 # OS
 .DS_Store
 Thumbs.db
+
+# Ignore sensitive data
+backend/ingestion/state ai initiatives/
+*.pdf
+*.docx
+*.json
+.env
