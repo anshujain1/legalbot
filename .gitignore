@@ -7,19 +7,27 @@ venv/
 .env
 .env.*
 
-# Data
-data/
-*.pdf
-*.docx
-*.json
-
 # OS
 .DS_Store
 Thumbs.db
 
-# Ignore sensitive data
-backend\ingestion\pdf-files\State-wise AI initiatives
+# ---- Ignore REAL data ----
+data/raw/
+data/files/
+data/pdfs/
+data/documents/
+
+# Ignore document formats everywhere
 *.pdf
 *.docx
-*.json
-.env
+
+# ---- Allow code ----
+!data/scripts/
+!data/scripts/**/*.py
+!data/scripts/**/*.json
+
+# ---- Ignore sensitive ingestion data ----
+backend/ingestion/pdf-files/State-wise AI initiatives/
+
+# Optional: ignore large generated files
+*.log
