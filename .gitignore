@@ -24,7 +24,6 @@ data/documents/
 # ---- Allow code ----
 !data/scripts/
 !data/scripts/**/*.py
-!data/scripts/**/*.json
 
 # ---- Ignore sensitive ingestion data ----
 backend/ingestion/pdf-files/State-wise AI initiatives/
