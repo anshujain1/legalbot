@@ -25,6 +25,7 @@ data/documents/
 # Ignore document formats everywhere
 *.pdf
 *.docx
+*.json
 
 # ---- Allow code ----
 !data/scripts/
