@@ -10,6 +10,11 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+# ---- Generated / client data (DO NOT COMMIT) ----
+backend/ingestion/pdf-files/data/**/*.json
+backend/ingestion/pdf-files/data/processed/pdf_chunks
+backend/ingestion/pdf-files/data/*queue.json
+backend/ingestion/pdf-files/data/*index.json
 
 # ---- Ignore REAL data ----
 data/raw/
