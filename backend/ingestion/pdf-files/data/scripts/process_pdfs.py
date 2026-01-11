@@ -6,62 +6,46 @@ import re
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDF_DIR = os.path.join(BASE_DIR, "raw", "pdfs")
 OUT_DIR = os.path.join(BASE_DIR, "processed", "pdf_chunks")
-MASTER_JSON = os.path.join(BASE_DIR, "pdf_queue.json")
+MASTER_JSON = os.path.join(BASE_DIR, "scripts", "pdf_master.json")
+
+import os, json, re, fitz
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PDF_DIR = os.path.join(BASE_DIR, "raw", "pdfs")
+OUT_DIR = os.path.join(BASE_DIR, "processed", "pdf_chunks")
+MASTER_JSON = os.path.join(BASE_DIR, "scripts", "pdf_master.json")
 
 os.makedirs(OUT_DIR, exist_ok=True)
 
+
+CHUNK_SIZE = 400          
+OVERLAP = 70              
+MIN_CHUNK = 150           
+
 CHAPTER_RE = re.compile(r"(Chapter\s+[IVX]+)", re.IGNORECASE)
-SECTION_RE = re.compile(r"(\d+\.\d+(\.\d+)*)")
+SECTION_RE = re.compile(r"(\d+(\.\d+)+)")
 DROP_KEYWORDS = [
-    'Acknowledgement',
-    'Table of Contents',
-    'List of Tables',
-    'List of Figures',
-    'Annexure',
-    'ISBN',
-    'Contact:'
+    "table of contents", "acknowledgement", "isbn",
+    "list of figures", "list of tables", "annexure"
 ]
 
 def clean(text):
     return " ".join(text.replace("\n", " ").split())
 
-def is_junk_page(text):
-    hits = sum(1 for k in DROP_KEYWORDS if k.lower() in text.lower())
-    return hits >= 2
+def is_junk(text):
+    return sum(1 for k in DROP_KEYWORDS if k in text.lower()) >= 2
 
-def group_by_structure(pages):
-    groups = []
-    current = {"chapter": None, "section": None, "pages": [], "text": ""}
-    
-    for p in pages:
-        text = p['text']
-        chapter_match = CHAPTER_RE.search(text)
-        if chapter_match:
-            if current["text"]:
-                groups.append(current)
-            current = {"chapter": chapter_match.group(1), "section": None, "pages": [], "text": ""}
-        
-        section_match = SECTION_RE.search(text)
-        if section_match:
-            current["section"] = section_match.group(1)
-        
-        current["pages"].append(p["page"])
-        current["text"] += " " + text
-    
-    if current["text"]:
-        groups.append(current)
-    return groups
-
-def chunk_by_tokens(text, max_words=1200):
-    words = text.split()
+def chunk_text(words):
     chunks = []
-    for i in range(0, len(words), max_words):
-        chunks.append(" ".join(words[i:i+max_words]))
+    i = 0
+    while i < len(words):
+        chunk = words[i:i + CHUNK_SIZE]
+        chunks.append(" ".join(chunk))
+        i += CHUNK_SIZE - OVERLAP
     return chunks
 
 with open(MASTER_JSON, "r", encoding="utf-8") as f:
     pdfs = json.load(f)
-
 
 for item in pdfs:
     if item["type"] != "pdf" or item["status"] == "completed":
@@ -69,46 +53,55 @@ for item in pdfs:
 
     pdf_path = os.path.join(PDF_DIR, item["initiative_id"] + ".pdf")
     if not os.path.exists(pdf_path):
-        print("PDF not found:", pdf_path)
+        print("Missing PDF:", pdf_path)
         continue
 
     doc = fitz.open(pdf_path)
-    pages = []
-
-   
-    for i, page in enumerate(doc):
-        text = clean(page.get_text())
-        if len(text) > 150 and not is_junk_page(text):
-            pages.append({"page": i+1, "text": text})
-
-    if not pages:
-        print("No usable text found for", item["initiative_id"])
-        continue
-
-    groups = group_by_structure(pages)
-
+    last_chapter, last_section = None, None
     final_chunks = []
-    for g in groups:
-        text_chunks = chunk_by_tokens(g["text"])
-        for t in text_chunks:
+
+    for page_no, page in enumerate(doc, start=1):
+        text = clean(page.get_text())
+        if len(text) < 150 or is_junk(text):
+            continue
+
+        chap = CHAPTER_RE.search(text)
+        sec = SECTION_RE.search(text)
+
+        if chap:
+            last_chapter = chap.group(1)
+        if sec:
+            last_section = sec.group(1)
+
+        words = text.split()
+        page_chunks = chunk_text(words)
+
+        for ch in page_chunks:
+            if len(ch.split()) < MIN_CHUNK:
+                continue
+
             final_chunks.append({
-                "chapter": g["chapter"],
-                "section": g["section"],
-                "pages": g["pages"],
-                "text": t
+                "initiative_id": item["initiative_id"],
+                "source_type": "pdf",
+                "url": item.get("url"),
+                "state": item["state"],
+                "title": item["title"],
+                "chapter": last_chapter,
+                "section": last_section,
+                "pages": [page_no],
+                "text": ch
             })
+
+    if not final_chunks:
+        print("No usable content:", item["initiative_id"])
+        continue
 
     out_path = os.path.join(OUT_DIR, item["initiative_id"] + ".json")
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump({
-            "initiative_id": item["initiative_id"],
-            "state": item["state"],
-            "title": item["title"],
-            "chunks": final_chunks
-        }, f, indent=2, ensure_ascii=False)
+        json.dump(final_chunks, f, indent=2, ensure_ascii=False)
 
     item["status"] = "completed"
-    with open("pdf_master.json", "w", encoding="utf-8") as f:
-        json.dump(pdfs, f, indent=2, ensure_ascii=False)
+    print("Processed PDF:", item["initiative_id"])
 
-    print("Processed:", item["initiative_id"])
+with open(MASTER_JSON, "w", encoding="utf-8") as f:
+    json.dump(pdfs, f, indent=2, ensure_ascii=False)

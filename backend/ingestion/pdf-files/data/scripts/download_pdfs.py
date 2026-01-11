@@ -10,7 +10,7 @@ os.makedirs(PDF_DIR, exist_ok=True)
 with open(MASTER_JSON, "r", encoding="utf-8") as f:
     pdfs = json.load(f)
 
-BATCH = 2
+BATCH = 5
 count = 0
 
 for item in pdfs:
