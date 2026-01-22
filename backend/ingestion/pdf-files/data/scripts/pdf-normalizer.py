@@ -1,103 +1,160 @@
 import os
 import json
+import re
 
 # ---------------- CONFIG ----------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHUNK_DIR = os.path.join(BASE_DIR, "processed", "pdf_chunks")
 MASTER_JSON = os.path.join(BASE_DIR, "scripts", "pdf_master.json")
-DROP_KEYWORDS = [
-    'Acknowledgement', 'Table of Contents', 'List of Tables',
-    'List of Figures', 'Annexure', 'ISBN', 'Contact:'
-]
 
-# Minimum and maximum word counts for RAG-friendly chunks
 MIN_WORDS = 300
 MAX_WORDS = 600
+MIN_RAW_WORDS = 80
+
+DROP_KEYWORDS = [
+    "table of contents", "acknowledgement", "annexure",
+    "appendix", "references", "bibliography",
+    "isbn", "contact", "list of figures", "list of tables"
+]
+
+NUMBER_HEAVY_RATIO = 0.35
 
 # ---------------- LOAD MASTER PDF DATA ----------------
 with open(MASTER_JSON, "r", encoding="utf-8") as f:
     pdf_master = json.load(f)
 
-# Map initiative_id → URL
-id_to_url = {item["initiative_id"]: item.get("url") for item in pdf_master if item["type"] == "pdf"}
+id_to_meta = {
+    item["initiative_id"]: {
+        "url": item.get("url"),
+        "title": item.get("title")
+    }
+    for item in pdf_master
+    if item.get("type") == "pdf"
+}
+
+# ---------------- FILTERS ----------------
+def is_english(text):
+    return not bool(re.search(r"[^\x00-\x7F]", text))
 
 def is_junk(text):
-    return any(k.lower() in text.lower() for k in DROP_KEYWORDS)
+    lower = text.lower()
+    return any(k in lower for k in DROP_KEYWORDS)
 
-def normalize_chunks(chunks, min_words=MIN_WORDS, max_words=MAX_WORDS):
-    normalized = []
-    buffer_text = ""
-    buffer_pages = []
-    buffer_chapter = None
-    buffer_section = None
+def is_table_like(text):
+    tokens = text.split()
+    if not tokens:
+        return True
+    numeric = sum(1 for t in tokens if any(c.isdigit() for c in t))
+    return (numeric / len(tokens)) > NUMBER_HEAVY_RATIO
 
+def is_heading_like(text):
+    return text.isupper() or len(text.split()) < 10
+
+def clean_meta(v):
+    if not v:
+        return None
+    if isinstance(v, str) and re.fullmatch(r"[\d.\-]+", v.strip()):
+        return None
+    return v
+
+# ---------------- NORMALIZATION ----------------
+def normalize_chunks(chunks):
+    cleaned = []
+
+    # STEP 1: FILTER
     for c in chunks:
-        text = c["text"]
-        pages = c.get("pages", [])
-        chapter = c.get("chapter")
-        section = c.get("section")
+        text = c.get("text", "").strip()
+        if len(text.split()) < MIN_RAW_WORDS:
+            continue
+        if not is_english(text):
+            continue
+        if is_junk(text):
+            continue
+        if is_table_like(text):
+            continue
+        if is_heading_like(text):
+            continue
 
-        total_words = len((buffer_text + " " + text).split())
-        if total_words > max_words:
-            if buffer_text.strip():
-                normalized.append({
-                    "chapter": buffer_chapter,
-                    "section": buffer_section,
-                    "pages": buffer_pages,
-                    "text": buffer_text.strip()
-                })
-            buffer_text = text
-            buffer_pages = pages
-            buffer_chapter = chapter
-            buffer_section = section
-        else:
-            buffer_text += " " + text
-            buffer_pages += pages
-            buffer_chapter = buffer_chapter or chapter
-            buffer_section = buffer_section or section
-
-    if buffer_text.strip():
-        normalized.append({
-            "chapter": buffer_chapter,
-            "section": buffer_section,
-            "pages": buffer_pages,
-            "text": buffer_text.strip()
+        cleaned.append({
+            "text": text,
+            "pages": c.get("pages", []),
+            "chapter": clean_meta(c.get("chapter")),
+            "section": clean_meta(c.get("section"))
         })
 
-    return normalized
+    # STEP 2: MERGE
+    final = []
+    buf_text = ""
+    buf_pages = []
+    buf_ch = None
+    buf_sec = None
 
+    for c in cleaned:
+        words = (buf_text + " " + c["text"]).split()
+        if len(words) > MAX_WORDS:
+            if len(buf_text.split()) >= MIN_WORDS:
+                final.append({
+                    "chapter": buf_ch,
+                    "section": buf_sec,
+                    "pages": sorted(set(buf_pages)),
+                    "text": buf_text.strip()
+                })
+            buf_text = c["text"]
+            buf_pages = c["pages"]
+            buf_ch = c["chapter"]
+            buf_sec = c["section"]
+        else:
+            buf_text += " " + c["text"]
+            buf_pages += c["pages"]
+            buf_ch = buf_ch or c["chapter"]
+            buf_sec = buf_sec or c["section"]
+
+    if len(buf_text.split()) >= MIN_WORDS:
+        final.append({
+            "chapter": buf_ch,
+            "section": buf_sec,
+            "pages": sorted(set(buf_pages)),
+            "text": buf_text.strip()
+        })
+
+    return final
+
+# ---------------- MAIN ----------------
 for file in os.listdir(CHUNK_DIR):
     if not file.endswith(".json"):
         continue
 
     path = os.path.join(CHUNK_DIR, file)
     initiative_id = file.replace(".json", "")
-    url = id_to_url.get(initiative_id)
+    meta = id_to_meta.get(initiative_id, {})
 
     with open(path, "r", encoding="utf-8") as f:
-        chunks_list = json.load(f)
+        data = json.load(f)
 
-    if not isinstance(chunks_list, list):
-        print(f"Skipping {file}, not a list of chunks")
+    # ✅ SUPPORT BOTH FORMATS
+    if isinstance(data, dict) and "chunks" in data:
+        raw_chunks = data["chunks"]
+        title = data.get("title")
+    elif isinstance(data, list):
+        raw_chunks = data
+        title = None
+    else:
+        print(f"Skipping {file}: unknown format")
         continue
 
-    normalized_chunks = normalize_chunks(chunks_list)
+    normalized = normalize_chunks(raw_chunks)
 
-    for c in normalized_chunks:
-        c["source"] = {
-            "type": "pdf",
-            "url": url
-        }
-    normalized_data = {
+    final_data = {
         "initiative_id": initiative_id,
         "source": {
             "type": "pdf",
-            "url": url
+            "url": meta.get("url")
         },
-        "chunks": normalized_chunks
+        "title": title or meta.get("title"),
+        "chunks": normalized
     }
 
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(normalized_data, f, indent=2, ensure_ascii=False)
+        json.dump(final_data, f, indent=2, ensure_ascii=False)
 
-    print(f"Normalized PDF chunks for {initiative_id}, total chunks: {len(normalized_chunks)}")
+    print(f"Normalized {initiative_id}: {len(normalized)} chunks")
