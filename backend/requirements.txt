@@ -1,0 +1,12 @@
+requests
+beautifulsoup4
+playwright
+pdfplumber
+fastapi
+uvicorn
+qdrant-client
+openai
+python-dotenv
+sqlalchemy
+apscheduler
+openpyxl
