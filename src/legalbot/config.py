@@ -31,6 +31,19 @@ class Settings:
     # Generation.
     groq_model: str = field(default_factory=lambda: _env("LEGALBOT_GROQ_MODEL", "llama-3.3-70b-versatile") or "llama-3.3-70b-versatile")
 
+    # HTTP API. CORS origins are the exact origins your frontend is served from (no trailing slash).
+    cors_origins: tuple[str, ...] = field(
+        default_factory=lambda: tuple(
+            o.strip().rstrip("/")
+            for o in (
+                _env("LEGALBOT_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173")
+                or ""
+            ).split(",")
+            if o.strip()
+        )
+    )
+    api_key: str | None = field(default_factory=lambda: _env("LEGALBOT_API_KEY"))
+
     # Retrieval / chunking.
     top_k: int = 8
     max_chunk_chars: int = 1800
