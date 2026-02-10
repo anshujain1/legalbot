@@ -5,6 +5,7 @@ bns:
   name: Bharatiya Nyaya Sanhita, 2023
   short: BNS
   year: 2023
+  sections: 358
   status: in_force
   effective_from: "2024-07-01"
   replaces: [ipc]
@@ -14,6 +15,7 @@ bnss:
   name: Bharatiya Nagarik Suraksha Sanhita, 2023
   short: BNSS
   year: 2023
+  sections: 531
   status: in_force
   effective_from: "2024-07-01"
   replaces: [crpc]
@@ -23,6 +25,7 @@ bsa:
   name: Bharatiya Sakshya Adhiniyam, 2023
   short: BSA
   year: 2023
+  sections: 170
   status: in_force
   effective_from: "2024-07-01"
   replaces: [iea]
