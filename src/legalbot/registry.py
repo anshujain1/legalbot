@@ -23,6 +23,7 @@ class ActInfo:
     replaces: tuple[str, ...] = ()
     replaced_by: str | None = None
     effective_from: str | None = None
+    expected_sections: int | None = None  # official section count; ingest warns if the parse disagrees
 
 
 class ActRegistry:
@@ -50,6 +51,7 @@ class ActRegistry:
                 replaces=tuple(spec.get("replaces", [])),
                 replaced_by=spec.get("replaced_by"),
                 effective_from=spec.get("effective_from"),
+                expected_sections=spec.get("sections"),
             )
             for act_id, spec in raw.items()
         ]
