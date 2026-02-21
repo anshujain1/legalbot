@@ -46,7 +46,8 @@ class SentenceTransformerEmbedder:
         except ImportError as exc:  # pragma: no cover
             raise RuntimeError("sentence-transformers is not installed. Run: pip install -e '.[ml]'") from exc
         self.model = SentenceTransformer(model_name)
-        self.dim = int(self.model.get_sentence_embedding_dimension())
+        get_dim = getattr(self.model, "get_embedding_dimension", None) or self.model.get_sentence_embedding_dimension  # renamed in newer sentence-transformers
+        self.dim = int(get_dim())
         name = model_name.lower()
         if query_prefix is None and "bge" in name and name.rstrip("-v1.5").endswith("-en"):
             query_prefix = "Represent this sentence for searching relevant passages: "
