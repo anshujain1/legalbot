@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from .chunking import parse_statute
+from .normalize import repair_spacing, summarize
 from .registry import ActInfo
 from .schema import LegalChunk
 
@@ -22,9 +23,19 @@ def read_document(path: str | Path) -> str:
     raise ValueError(f"Unsupported file type '{suffix}'. Use .txt, .md or .pdf")
 
 
-def chunk_statute_file(path: str | Path, act: ActInfo, max_chars: int = 1800) -> list[LegalChunk]:
+def chunk_statute_file(
+    path: str | Path,
+    act: ActInfo,
+    max_chars: int = 1800,
+    diagnostics: dict | None = None,
+    repair: bool = True,
+) -> list[LegalChunk]:
     text = read_document(path)
-    return parse_statute(text, act, source_file=Path(path).name, max_chars=max_chars)
+    if repair:
+        text, repairs = repair_spacing(text)
+        if diagnostics is not None:
+            diagnostics.update(spacing_repairs=sum(repairs.values()), spacing_examples=summarize(repairs, 12))
+    return parse_statute(text, act, source_file=Path(path).name, max_chars=max_chars, diagnostics=diagnostics)
 
 
 def write_jsonl(chunks: list[LegalChunk], path: str | Path) -> None:
