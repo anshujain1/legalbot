@@ -80,7 +80,7 @@ class QdrantStore:
             dense = self.embedder.embed([c.embed_text for c in batch])
             points = []
             for chunk, vec in zip(batch, dense):
-                idx, val = sparse_vector(chunk.embed_text)
+                idx, val = sparse_vector(chunk.sparse_text)
                 points.append(
                     models.PointStruct(
                         id=chunk.point_id,
