@@ -21,6 +21,7 @@ class QueryPlan(BaseModel):
     mentioned_acts: list[str] = Field(default_factory=list)
     explicit_sections: list[tuple[str, str]] = Field(default_factory=list)  # (act_id, section_no) to pin
     mapped_refs: list[tuple[str, str]] = Field(default_factory=list)  # old and new refs from the concordance
+    removed_refs: list[tuple[str, str]] = Field(default_factory=list)  # old sections deleted with no successor
     notes: list[str] = Field(default_factory=list)
 
 
@@ -58,6 +59,7 @@ class QueryAnalyzer:
 
         explicit: list[tuple[str, str]] = []
         mapped: list[tuple[str, str]] = []
+        removed: list[tuple[str, str]] = []
         notes: list[str] = []
         extra_terms: list[str] = []
         target_acts: list[str] = []
@@ -78,6 +80,17 @@ class QueryAnalyzer:
                 extra_terms.append(f"{new} section {m.new_section} {m.note}")
                 if m.new_act not in target_acts:
                     target_acts.append(m.new_act)
+            gone = self.concordance.removed(act_id, sec)
+            if gone is not None:
+                old = self.registry.get(gone.old_act).short
+                label = f" ({gone.title})" if gone.title else ""
+                flag = "" if gone.verified else " (unverified)"
+                notes.append(
+                    f"{old} §{gone.old_section}{label} has no equivalent in the new code: the official comparison "
+                    f"table lists it as deleted{flag}. Do not present another section as its replacement unless a source says so."
+                )
+                removed.append((gone.old_act, gone.old_section))
+                mapped.append((gone.old_act, gone.old_section))
             for m in self.concordance.backward(act_id, sec):
                 old = self.registry.get(m.old_act).short
                 new = self.registry.get(m.new_act).short
@@ -99,5 +112,6 @@ class QueryAnalyzer:
             mentioned_acts=mentioned,
             explicit_sections=explicit,
             mapped_refs=list(dict.fromkeys(mapped)),
+            removed_refs=list(dict.fromkeys(removed)),
             notes=notes,
         )
