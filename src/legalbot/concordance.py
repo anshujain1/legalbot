@@ -25,9 +25,22 @@ class Mapping:
     verified: bool
 
 
+@dataclass(frozen=True)
+class Removal:
+    """An old section the comparison table lists as deleted: it has NO successor in the new code."""
+
+    old_act: str
+    old_section: str
+    title: str
+    note: str
+    verified: bool
+
+
 class Concordance:
-    def __init__(self, rows: list[Mapping]):
+    def __init__(self, rows: list[Mapping], removed: list[Removal] | None = None):
         self.rows = rows
+        self.removals = removed or []
+        self._removed = {(r.old_act, r.old_section.upper()): r for r in self.removals}
         self._forward: dict[tuple[str, str], list[Mapping]] = {}
         self._backward: dict[tuple[str, str], list[Mapping]] = {}
         for m in rows:
@@ -35,7 +48,11 @@ class Concordance:
             self._backward.setdefault((m.new_act, m.new_section.upper()), []).append(m)
 
     @classmethod
-    def load(cls, path: str | Path | None = None) -> "Concordance":
+    def load(cls, path: str | Path | None = None, removed_path: str | Path | None = None) -> "Concordance":
+        # The packaged deleted-sections file goes with the packaged mapping; a custom mapping path
+        # loads only the removals it is explicitly given.
+        if removed_path is None and path is None:
+            removed_path = DATA_DIR / "ipc_deleted.csv"
         path = Path(path) if path else DATA_DIR / "ipc_to_bns.csv"
         with path.open(encoding="utf-8", newline="") as f:
             rows = [
@@ -50,7 +67,24 @@ class Concordance:
                 )
                 for r in csv.DictReader(f)
             ]
-        return cls(rows)
+        removed: list[Removal] = []
+        if removed_path and Path(removed_path).exists():
+            with Path(removed_path).open(encoding="utf-8", newline="") as f:
+                removed = [
+                    Removal(
+                        old_act=r["old_act"].strip(),
+                        old_section=r["old_section"].strip(),
+                        title=(r.get("title") or "").strip(),
+                        note=(r.get("note") or "").strip(),
+                        verified=(r.get("source") or "").strip().lower() == "curated",
+                    )
+                    for r in csv.DictReader(f)
+                ]
+        return cls(rows, removed)
+
+    def removed(self, act_id: str, section: str) -> Removal | None:
+        """Old section that was deleted outright (no BNS equivalent), if it is one."""
+        return self._removed.get((act_id, section.upper()))
 
     def forward(self, act_id: str, section: str) -> list[Mapping]:
         """Old section -> its current equivalent(s)."""
