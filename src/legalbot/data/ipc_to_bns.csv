@@ -1,20 +1,548 @@
-old_act,old_section,new_act,new_section,new_ref,note,verified
-ipc,34,bns,3,3(5),Acts done by several persons in furtherance of common intention,false
-ipc,120B,bns,61,61(2),Criminal conspiracy,false
-ipc,299,bns,100,100,Culpable homicide,false
-ipc,300,bns,101,101,Murder,false
-ipc,302,bns,103,103(1),Punishment for murder,false
-ipc,304,bns,105,105,Punishment for culpable homicide not amounting to murder,false
-ipc,304A,bns,106,106(1),Causing death by negligence,false
-ipc,304B,bns,80,80,Dowry death,false
-ipc,307,bns,109,109,Attempt to murder,false
-ipc,323,bns,115,115(2),Punishment for voluntarily causing hurt,false
-ipc,354,bns,74,74,Assault or criminal force to woman with intent to outrage her modesty,false
-ipc,376,bns,64,64,Punishment for rape,false
-ipc,379,bns,303,303(2),Punishment for theft,false
-ipc,406,bns,316,316(2),Punishment for criminal breach of trust,false
-ipc,420,bns,318,318(4),Cheating and dishonestly inducing delivery of property,false
-ipc,498A,bns,85,85,Husband or relative of husband of a woman subjecting her to cruelty,false
-ipc,504,bns,352,352,Intentional insult with intent to provoke breach of the peace,false
-ipc,506,bns,351,351(2),Punishment for criminal intimidation,false
-ipc,509,bns,79,79,Word or gesture intended to insult the modesty of a woman,false
+old_act,old_section,new_act,new_section,new_ref,note,verified,source,confidence
+ipc,34,bns,3,3(5),Acts done by several persons in furtherance of common intention,true,curated,curated
+ipc,120B,bns,61,61(2),Criminal conspiracy,true,curated,curated
+ipc,299,bns,100,100,Culpable homicide,true,curated,curated
+ipc,300,bns,101,101,Murder,true,curated,curated
+ipc,302,bns,103,103(1),Punishment for murder,true,curated,curated
+ipc,304,bns,105,105,Punishment for culpable homicide not amounting to murder,true,curated,curated
+ipc,304A,bns,106,106(1),Causing death by negligence,true,curated,curated
+ipc,304B,bns,80,80,Dowry death,true,curated,curated
+ipc,307,bns,109,109,Attempt to murder,true,curated,curated
+ipc,323,bns,115,115(2),Punishment for voluntarily causing hurt,true,curated,curated
+ipc,354,bns,74,74,Assault or criminal force to woman with intent to outrage her modesty,true,curated,curated
+ipc,376,bns,64,64,Punishment for rape,true,curated,curated
+ipc,379,bns,303,303(2),Punishment for theft,true,curated,curated
+ipc,406,bns,316,316(2),Punishment for criminal breach of trust,true,curated,curated
+ipc,420,bns,318,318(4),Cheating and dishonestly inducing delivery of property,true,curated,curated
+ipc,498A,bns,85,85,Husband or relative of husband of a woman subjecting her to cruelty,true,curated,curated
+ipc,504,bns,352,352,Intentional insult with intent to provoke breach of the peace,true,curated,curated
+ipc,506,bns,351,"351(2), 351(3)",Punishment for criminal intimidation,true,curated,curated
+ipc,509,bns,79,79,Word or gesture intended to insult the modesty of a woman,true,curated,curated
+ipc,1,bns,1,1(1),"Short title, commencement and application",false,auto,check
+ipc,2,bns,1,1(2),"Short title, commencement and application",false,auto,check
+ipc,2,bns,1,1(3),"Short title, commencement and application",false,auto,check
+ipc,3,bns,1,1(4),"Short title, commencement and application",false,auto,check
+ipc,4,bns,1,1(5),"Short title, commencement and application",false,auto,check
+ipc,5,bns,1,1(6),"Short title, commencement and application",false,auto,check
+ipc,33,bns,2,2(1),Definitions,false,auto,check
+ipc,47,bns,2,2(2),Definitions,false,auto,check
+ipc,28,bns,2,2(3),Definitions,false,auto,check
+ipc,28,bns,2,2(4),Definitions,false,auto,check
+ipc,20,bns,2,2(5),Definitions,false,auto,check
+ipc,46,bns,2,2(6),Definitions,false,auto,check
+ipc,24,bns,2,2(7),Definitions,false,auto,check
+ipc,29,bns,2,2(8),Definitions,false,auto,check
+ipc,25,bns,2,2(9),Definitions,false,auto,check
+ipc,8,bns,2,2(10),Definitions,false,auto,check
+ipc,52,bns,2,2(11),Definitions,false,auto,check
+ipc,17,bns,2,2(12),Definitions,false,auto,check
+ipc,52A,bns,2,2(13),Definitions,false,auto,check
+ipc,44,bns,2,2(14),Definitions,false,auto,check
+ipc,43,bns,2,2(15),Definitions,false,auto,check
+ipc,19,bns,2,2(16),Definitions,false,auto,check
+ipc,45,bns,2,2(17),Definitions,false,auto,check
+ipc,42,bns,2,2(18),Definitions,false,auto,check
+ipc,10,bns,2,2(19),Definitions,false,auto,check
+ipc,49,bns,2,2(20),Definitions,false,auto,check
+ipc,22,bns,2,2(21),Definitions,false,auto,check
+ipc,9,bns,2,2(22),Definitions,false,auto,check
+ipc,51,bns,2,2(23),Definitions,false,auto,check
+ipc,40,bns,2,2(24),Definitions,false,auto,check
+ipc,33,bns,2,2(25),Definitions,false,auto,check
+ipc,11,bns,2,2(26),Definitions,false,auto,check
+ipc,12,bns,2,2(27),Definitions,false,auto,check
+ipc,21,bns,2,2(28),Definitions,false,auto,check
+ipc,26,bns,2,2(29),Definitions,false,auto,check
+ipc,41,bns,2,2(30),Definitions,false,auto,check
+ipc,30,bns,2,2(31),Definitions,false,auto,check
+ipc,48,bns,2,2(32),Definitions,false,auto,check
+ipc,39,bns,2,2(33),Definitions,false,auto,check
+ipc,31,bns,2,2(34),Definitions,false,auto,check
+ipc,10,bns,2,2(35),Definitions,false,auto,check
+ipc,23,bns,2,2(36),Definitions,false,auto,check
+ipc,23,bns,2,2(37),Definitions,false,auto,check
+ipc,23,bns,2,2(38),Definitions,false,auto,check
+ipc,6,bns,3,3(1),General explanations,false,auto,check
+ipc,7,bns,3,3(2),General explanations,false,auto,check
+ipc,27,bns,3,3(3),General explanations,false,auto,check
+ipc,32,bns,3,3(4),General explanations,false,auto,check
+ipc,35,bns,3,3(6),General explanations,false,auto,check
+ipc,36,bns,3,3(7),General explanations,false,auto,check
+ipc,37,bns,3,3(8),General explanations,false,auto,check
+ipc,38,bns,3,3(9),General explanations,false,auto,check
+ipc,53,bns,4,4,Punishments,false,auto,title_match
+ipc,54,bns,5,5(a),Commutation of sentence,false,auto,title_match
+ipc,55,bns,5,5(b),Commutation of sentence,false,auto,title_match
+ipc,57,bns,6,6,Fractions of terms of punishment,false,auto,title_match
+ipc,60,bns,7,7,Sentence may be (in certain cases of imprisonment) wholly or partly rigorous or simple,false,auto,title_match
+ipc,63,bns,8,8(1),"Amount of fine, liability in default of payment of fine, etc",false,auto,title_match
+ipc,64,bns,8,8(2),"Amount of fine, liability in default of payment of fine, etc",false,auto,check
+ipc,65,bns,8,8(3),"Amount of fine, liability in default of payment of fine, etc",false,auto,check
+ipc,66,bns,8,8(4),"Amount of fine, liability in default of payment of fine, etc",false,auto,check
+ipc,67,bns,8,8(5),"Amount of fine, liability in default of payment of fine, etc",false,auto,check
+ipc,68,bns,8,8(6)(a),"Amount of fine, liability in default of payment of fine, etc",false,auto,check
+ipc,69,bns,8,8(6)(b),"Amount of fine, liability in default of payment of fine, etc",false,auto,check
+ipc,70,bns,8,8(7),"Amount of fine, liability in default of payment of fine, etc",false,auto,check
+ipc,71,bns,9,9,Limit of punishment of offence made up of several offences,false,auto,title_match
+ipc,72,bns,10,10,"Punishment of person guilty of one of several offences, judgment stating that it is doubtful of which",false,auto,title_match
+ipc,73,bns,11,11,Solitary confinement,false,auto,title_match
+ipc,74,bns,12,12,Limit of solitary confinement,false,auto,title_match
+ipc,75,bns,13,13,Enhanced punishment for certain offences after previous conviction,false,auto,title_match
+ipc,76,bns,14,14,"Act done by a person bound, or by mistake of fact believing himself bound, by law",false,auto,title_match
+ipc,77,bns,15,15,Act of Judge when acting judicially,false,auto,title_match
+ipc,78,bns,16,16,Act done pursuant to judgment or order of Court,false,auto,title_match
+ipc,79,bns,17,17,"Act done by a person justified, or by mistake of fact believing himself justified, by law",false,auto,title_match
+ipc,80,bns,18,18,Accident in doing a lawful act,false,auto,title_match
+ipc,81,bns,19,19,"Act likely to cause harm, but done without criminal intent, and to prevent other harm",false,auto,title_match
+ipc,82,bns,20,20,Act of a child under seven years of age,false,auto,title_match
+ipc,83,bns,21,21,Act of a child above seven and under twelve years of age of immature understanding,false,auto,title_match
+ipc,84,bns,22,22,Act of a person of unsound mind,false,auto,title_match
+ipc,85,bns,23,23,Act of a person incapable of judgment by reason of intoxication caused against his will,false,auto,title_match
+ipc,86,bns,24,24,Offence requiring a particular intent or knowledge committed by one who is intoxicated,false,auto,title_match
+ipc,87,bns,25,25,"Act not intended and not known to be likely to cause death or grievous hurt, done by consent",false,auto,title_match
+ipc,88,bns,26,26,"Act not intended to cause death, done by consent in good faith for person’s benefit",false,auto,title_match
+ipc,89,bns,27,27,"Act done in good faith for benefit of child or person of unsound mind, by, or by consent of guardian",false,auto,title_match
+ipc,90,bns,28,28,Consent known to be given under fear or misconception,false,auto,title_match
+ipc,91,bns,29,29,Exclusion of acts which are offences independently of harm caused,false,auto,title_match
+ipc,92,bns,30,30,Act done in good faith for benefit of a person without consent,false,auto,title_match
+ipc,93,bns,31,31,Communication made in good faith,false,auto,title_match
+ipc,94,bns,32,32,Act to which a person is compelled by threats,false,auto,title_match
+ipc,95,bns,33,33,Act causing slight harm,false,auto,title_match
+ipc,96,bns,34,34,Things done in private defence,false,auto,title_match
+ipc,97,bns,35,35,Right of private defence of body and of property,false,auto,title_match
+ipc,98,bns,36,36,"Right of private defence against act of a person of unsound mind, etc",false,auto,title_match
+ipc,99,bns,37,37,Acts against which there is no right of private defence,false,auto,title_match
+ipc,100,bns,38,38,When right of private defence of body extends to causing death,false,auto,title_match
+ipc,101,bns,39,39,When such right extends to causing any harm other than death,false,auto,title_match
+ipc,102,bns,40,40,Commencement and continuance of right of private defence of body,false,auto,title_match
+ipc,103,bns,41,41,When right of private defence of property extends to causing death,false,auto,title_match
+ipc,104,bns,42,42,When such right extends to causing any harm other than death,false,auto,title_match
+ipc,105,bns,43,43,Commencement and continuance of right of private defence of property,false,auto,title_match
+ipc,106,bns,44,44,Right of private defence against deadly assault when there is risk of harm to innocent person,false,auto,title_match
+ipc,107,bns,45,45,Abetment of a thing,false,auto,title_match
+ipc,108,bns,46,46,Abettor,false,auto,title_match
+ipc,108A,bns,47,47,Abetment in India of offences outside India,false,auto,title_match
+ipc,109,bns,49,49,Punishment of abetment if act abetted is committed in consequence and where no express provision is made for its punishment,false,auto,title_match
+ipc,110,bns,50,50,Punishment of abetment if person abetted does act with different intention from that of abettor,false,auto,title_match
+ipc,111,bns,51,51,Liability of abettor when one act abetted and different act done,false,auto,title_match
+ipc,112,bns,52,52,Abettor when liable to cumulative punishment for act abetted and for act done,false,auto,title_match
+ipc,113,bns,53,53,Liability of abettor for an effect caused by act abetted different from that intended by abettor,false,auto,title_match
+ipc,114,bns,54,54,Abettor present when offence is committed,false,auto,title_match
+ipc,115,bns,55,55,Abetment of offence punishable with death or imprisonment for life,false,auto,title_match
+ipc,116,bns,56,56,Abetment of offence punishable with imprisonment,false,auto,title_match
+ipc,117,bns,57,57,Abetting commission of offence by public or by more than ten persons,false,auto,title_match
+ipc,118,bns,58,58,Concealing design to commit offence punishable with death or imprisonment for life,false,auto,title_match
+ipc,119,bns,59,59,Public servant concealing design to commit offence which it is his duty to prevent,false,auto,title_match
+ipc,120,bns,60,60,Concealing design to commit offence punishable with imprisonment,false,auto,title_match
+ipc,120A,bns,61,61(1),Criminal conspiracy,false,auto,check
+ipc,511,bns,62,62,Punishment for attempting to commit offences punishable with imprisonment for life or other imprisonment,false,auto,title_match
+ipc,375,bns,63,63,Rape,false,auto,title_match
+ipc,376,bns,65,65(1),Punishment for rape in certain cases,false,auto,check
+ipc,376AB,bns,65,65(1),Punishment for rape in certain cases,false,auto,check
+ipc,376AB,bns,65,65(2),Punishment for rape in certain cases,false,auto,check
+ipc,376A,bns,66,66,Punishment for causing death or resulting in persistent vegetative state of victim,false,auto,title_match
+ipc,376B,bns,67,67,Sexual intercourse by husband upon his wife during separation,false,auto,title_match
+ipc,376C,bns,68,68,Sexual intercourse by a person in authority,false,auto,title_match
+ipc,376D,bns,70,70(1),Gang rape,false,auto,title_match
+ipc,376DA,bns,70,70(2),Gang rape,false,auto,check
+ipc,376DB,bns,70,70(2),Gang rape,false,auto,check
+ipc,376E,bns,71,71,Punishment for repeat offenders,false,auto,title_match
+ipc,228A,bns,72,72,"Disclosure of identity of victim of certain offences, etc",false,auto,title_match
+ipc,228A,bns,73,73,Printing or publishing any matter relating to Court proceedings without permission,false,auto,check
+ipc,354A,bns,75,75,Sexual harassment,false,auto,title_match
+ipc,354B,bns,76,76,Assault or use of criminal force to woman with intent to disrobe,false,auto,title_match
+ipc,354C,bns,77,77,Voyeurism,false,auto,title_match
+ipc,354D,bns,78,78,Stalking,false,auto,title_match
+ipc,493,bns,81,81,Cohabitation caused by man deceitfully inducing belief of lawful marriage,false,auto,title_match
+ipc,494,bns,82,82(1),Marrying again during lifetime of husband or wife,false,auto,title_match
+ipc,495,bns,82,82(2),Marrying again during lifetime of husband or wife,false,auto,check
+ipc,496,bns,83,83,Marriage ceremony fraudulently gone through without lawful marriage,false,auto,title_match
+ipc,498,bns,84,84,Enticing or taking away or detaining with criminal intent a married woman,false,auto,title_match
+ipc,498A,bns,86,86,Cruelty defined,false,auto,check
+ipc,366,bns,87,87,"Kidnapping, abducting or inducing woman to compel her marriage, etc",false,auto,title_match
+ipc,312,bns,88,88,Causing miscarriage,false,auto,title_match
+ipc,313,bns,89,89,Causing miscarriage without woman’s consent,false,auto,title_match
+ipc,314,bns,90,90,Death caused by act done with intent to cause miscarriage,false,auto,title_match
+ipc,315,bns,91,91,Act done with in tent to prevent child being born alive or to cause to die after birth,false,auto,title_match
+ipc,316,bns,92,92,Causing death of quick unborn child by act amounting to culpable homicide,false,auto,title_match
+ipc,317,bns,93,93,"Exposure and abandonment of child under twelve years of age, by parent or person having care of it",false,auto,title_match
+ipc,318,bns,94,94,Concealment of birth by secret disposal of dead body,false,auto,title_match
+ipc,366A,bns,96,96,Procuration of child,false,auto,title_match
+ipc,369,bns,97,97,Kidnapping or abducting child under ten years of age with intent to steal from its person,false,auto,title_match
+ipc,372,bns,98,98,"Selling child for purposes of prostitution, etc",false,auto,title_match
+ipc,373,bns,99,99,"Buying child for purposes of prostitution, etc",false,auto,title_match
+ipc,301,bns,102,102,Culpable homicide by causing death of person other than person whose death was intended,false,auto,title_match
+ipc,303,bns,104,104,Punishment for murder by life-convict,false,auto,title_match
+ipc,305,bns,107,107,Abetment of suicide of child or person of unsound mind,false,auto,title_match
+ipc,306,bns,108,108,Abetment of suicide,false,auto,title_match
+ipc,308,bns,110,110,Attempt to commit culpable homicide,false,auto,title_match
+ipc,319,bns,114,114,Hurt,false,auto,title_match
+ipc,321,bns,115,115(1),Voluntarily causing hurt,false,auto,title_match
+ipc,320,bns,116,116,Grievous hurt,false,auto,title_match
+ipc,322,bns,117,117(1),Voluntarily causing grievous hurt,false,auto,title_match
+ipc,325,bns,117,117(2),Voluntarily causing grievous hurt,false,auto,check
+ipc,324,bns,118,118(1),Voluntarily causing hurt or grievous hurt by dangerous weapons or means,false,auto,title_match
+ipc,326,bns,118,118(2),Voluntarily causing hurt or grievous hurt by dangerous weapons or means,false,auto,title_match
+ipc,327,bns,119,119(1),"Voluntarily causing hurt or grievous hurt to extort property, or to constrain to an illegal act",false,auto,title_match
+ipc,329,bns,119,119(2),"Voluntarily causing hurt or grievous hurt to extort property, or to constrain to an illegal act",false,auto,title_match
+ipc,330,bns,120,120(1),"Voluntarily causing hurt or grievous hurt to extort confession, or to compel restoration of property",false,auto,title_match
+ipc,331,bns,120,120(2),"Voluntarily causing hurt or grievous hurt to extort confession, or to compel restoration of property",false,auto,title_match
+ipc,332,bns,121,121(1),Voluntarily causing hurt or grievous hurt to deter public servant from his duty,false,auto,title_match
+ipc,333,bns,121,121(2),Voluntarily causing hurt or grievous hurt to deter public servant from his duty,false,auto,title_match
+ipc,334,bns,122,122(1),Voluntarily causing hurt or grievous hurt on provocation,false,auto,check
+ipc,335,bns,122,122(2),Voluntarily causing hurt or grievous hurt on provocation,false,auto,title_match
+ipc,328,bns,123,123,"Causing hurt by means of poison, etc., with intent to commit an offence",false,auto,title_match
+ipc,326A,bns,124,124(1),"Voluntarily causing grievous hurt by use of acid, etc",false,auto,title_match
+ipc,326B,bns,124,124(2),"Voluntarily causing grievous hurt by use of acid, etc",false,auto,check
+ipc,336,bns,125,125,Act endangering life or personal safety of others,false,auto,title_match
+ipc,337,bns,125,125(a),Act endangering life or personal safety of others,false,auto,title_match
+ipc,338,bns,125,125(b),Act endangering life or personal safety of others,false,auto,check
+ipc,339,bns,126,126(1),Wrongful restraint,false,auto,title_match
+ipc,341,bns,126,126(2),Wrongful restraint,false,auto,check
+ipc,340,bns,127,127(1),Wrongful confinement,false,auto,title_match
+ipc,342,bns,127,127(2),Wrongful confinement,false,auto,check
+ipc,343,bns,127,127(3),Wrongful confinement,false,auto,title_match
+ipc,344,bns,127,127(4),Wrongful confinement,false,auto,title_match
+ipc,345,bns,127,127(5),Wrongful confinement,false,auto,title_match
+ipc,346,bns,127,127(6),Wrongful confinement,false,auto,title_match
+ipc,347,bns,127,127(7),Wrongful confinement,false,auto,title_match
+ipc,348,bns,127,127(8),Wrongful confinement,false,auto,title_match
+ipc,349,bns,128,128,Force,false,auto,title_match
+ipc,350,bns,129,129,Criminal force,false,auto,title_match
+ipc,351,bns,130,130,Assault,false,auto,title_match
+ipc,352,bns,131,131,Punishment for assault or criminal force otherwise than on grave provocation,false,auto,title_match
+ipc,353,bns,132,132,Assault or criminal force to deter public servant from discharge,false,auto,title_match
+ipc,355,bns,133,133,"Assault or criminal force with intent to dishonour person, otherwise than on grave provocation",false,auto,title_match
+ipc,356,bns,134,134,Assault or criminal force in attempt to commit theft of property carried by a person,false,auto,title_match
+ipc,357,bns,135,135,Assault or criminal force in attempt to wrongfully confine a person,false,auto,title_match
+ipc,358,bns,136,136,Assault or criminal force on grave provocation,false,auto,title_match
+ipc,359,bns,137,137(1),Kidnapping,false,auto,title_match
+ipc,360,bns,137,137(1)(a),Kidnapping,false,auto,title_match
+ipc,361,bns,137,137(1)(b),Kidnapping,false,auto,title_match
+ipc,363,bns,137,137(2),Kidnapping,false,auto,check
+ipc,362,bns,138,138,Abduction,false,auto,title_match
+ipc,363A,bns,139,139,Kidnapping or maiming a child for purposes of begging,false,auto,title_match
+ipc,364,bns,140,140(1),"Kidnapping or abducting in order to murder or for ransom, etc",false,auto,title_match
+ipc,364A,bns,140,140(2),"Kidnapping or abducting in order to murder or for ransom, etc",false,auto,check
+ipc,365,bns,140,140(3),"Kidnapping or abducting in order to murder or for ransom, etc",false,auto,check
+ipc,367,bns,140,140(4),"Kidnapping or abducting in order to murder or for ransom, etc",false,auto,check
+ipc,366B,bns,141,141,Importation of girl or boy from foreign country,false,auto,title_match
+ipc,368,bns,142,142,"Wrongfully concealing or keeping in confinement, kidnapped or abducted person",false,auto,title_match
+ipc,370,bns,143,143,Trafficking of person,false,auto,title_match
+ipc,370A,bns,144,144,Exploitation of a trafficked person,false,auto,title_match
+ipc,371,bns,145,145,Habitual dealing in slaves,false,auto,title_match
+ipc,374,bns,146,146,Unlawful compulsory labour,false,auto,title_match
+ipc,121,bns,147,147,"Waging, or attempting to wage war, or abetting waging of war, against Government of India",false,auto,title_match
+ipc,121A,bns,148,148,Conspiracy to commit offences punishable by section 147,false,auto,title_match
+ipc,122,bns,149,149,"Collecting arms, etc., with intention of waging war against Government of India",false,auto,title_match
+ipc,123,bns,150,150,Concealing with intent to facilitate design to wage war,false,auto,title_match
+ipc,124,bns,151,151,"Assaulting President, Governor, etc., with intent to compel or restrain exercise of any lawful power",false,auto,title_match
+ipc,125,bns,153,153,Waging war against Government of any foreign State at peace with Government of India,false,auto,check
+ipc,126,bns,154,154,Committing depredation on territories of foreign State at peace with Government of India,false,auto,title_match
+ipc,127,bns,155,155,Receiving property taken by war or depredation mentioned in sections 153 and 154,false,auto,title_match
+ipc,128,bns,156,156,Public servant voluntarily allowing prisoner of State or war to escape,false,auto,title_match
+ipc,129,bns,157,157,Public servant negligently suffering such prisoner to escape,false,auto,title_match
+ipc,130,bns,158,158,"Aiding escape of, rescuing or harbouring such prisoner",false,auto,title_match
+ipc,131,bns,159,159,"Abetting mutiny, or attempting to seduce a soldier, sailor or airman from his duty",false,auto,title_match
+ipc,132,bns,160,160,"Abetment of mutiny, if mutiny is committed in consequence thereof",false,auto,title_match
+ipc,133,bns,161,161,"Abetment of assault by soldier, sailor or airman on his superior officer, when in execution of his office",false,auto,title_match
+ipc,134,bns,162,162,"Abetment of such assault, if assault committed",false,auto,title_match
+ipc,135,bns,163,163,"Abetment of desertion of soldier, sailor or airman",false,auto,title_match
+ipc,136,bns,164,164,Harbouring deserter,false,auto,title_match
+ipc,137,bns,165,165,Deserter concealed on board merchant vessel through negligence of master,false,auto,title_match
+ipc,138,bns,166,166,"Abetment of act of insubordination by soldier, sailor or airman",false,auto,title_match
+ipc,139,bns,167,167,Persons subject to certain Acts,false,auto,title_match
+ipc,140,bns,168,168,"Wearing garb or carrying token used by soldier, sailor or airman",false,auto,title_match
+ipc,171A,bns,169,169,"Candidate, electoral right defined",false,auto,title_match
+ipc,171B,bns,170,170,Bribery,false,auto,title_match
+ipc,171C,bns,171,171,Undue influence at elections,false,auto,title_match
+ipc,171D,bns,172,172,Personation at elections,false,auto,title_match
+ipc,171E,bns,173,173,Punishment for bribery,false,auto,title_match
+ipc,171F,bns,174,174,Punishment for undue influence or personation at an election,false,auto,title_match
+ipc,171G,bns,175,175,False statement in connection with an election,false,auto,title_match
+ipc,171H,bns,176,176,Illegal payments in connection with an election,false,auto,title_match
+ipc,171I,bns,177,177,Failure to keep election accounts,false,auto,title_match
+ipc,231,bns,178,178,"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,title_match
+ipc,255,bns,178,178,"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,title_match
+ipc,489A,bns,178,178,"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,check
+ipc,230,bns,178,178(1),"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,check
+ipc,230,bns,178,178(2),"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,check
+ipc,246,bns,178,178(3),"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,check
+ipc,246,bns,178,178(4),"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,check
+ipc,246,bns,178,178(5),"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,check
+ipc,248,bns,178,178(3),"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,check
+ipc,248,bns,178,178(4),"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,check
+ipc,248,bns,178,178(5),"Counterfeiting coin, Government stamps, currency-notes or bank-notes",false,auto,check
+ipc,237,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,238,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,239,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,240,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,241,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,250,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,251,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,254,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,258,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,260,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,489B,bns,179,179,"Using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,242,bns,180,180,"Possession of forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,243,bns,180,180,"Possession of forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,252,bns,180,180,"Possession of forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,253,bns,180,180,"Possession of forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,259,bns,180,180,"Possession of forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,title_match
+ipc,489C,bns,180,180,"Possession of forged or counterfeit coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,233,bns,181,181,"Making or possessing instruments or materials for forging or counterfeiting coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,234,bns,181,181,"Making or possessing instruments or materials for forging or counterfeiting coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,235,bns,181,181,"Making or possessing instruments or materials for forging or counterfeiting coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,256,bns,181,181,"Making or possessing instruments or materials for forging or counterfeiting coin, Government stamp, currency-notes or bank-notes",false,auto,title_match
+ipc,257,bns,181,181,"Making or possessing instruments or materials for forging or counterfeiting coin, Government stamp, currency-notes or bank-notes",false,auto,check
+ipc,489D,bns,181,181,"Making or possessing instruments or materials for forging or counterfeiting coin, Government stamp, currency-notes or bank-notes",false,auto,title_match
+ipc,489E,bns,182,182,Making or using documents resembling currency-notes or bank-notes,false,auto,title_match
+ipc,261,bns,183,183,"Effacing writing from substance bearing Government stamp, or removing from document a stamp used for it, with intent to cause loss to Government",false,auto,title_match
+ipc,262,bns,184,184,Using Government stamp known to have been before used,false,auto,title_match
+ipc,263,bns,185,185,Erasure of mark denoting that stamp has been used,false,auto,title_match
+ipc,263A,bns,186,186,Prohibition of fictitious stamps,false,auto,title_match
+ipc,244,bns,187,187,Person employed in mint causing coin to be of different weight or composition from that fixed by law,false,auto,title_match
+ipc,245,bns,188,188,Unlawfully taking coining instrument from mint,false,auto,title_match
+ipc,141,bns,189,189(1),Unlawful assembly,false,auto,title_match
+ipc,143,bns,189,189(2),Unlawful assembly,false,auto,check
+ipc,145,bns,189,189(3),Unlawful assembly,false,auto,check
+ipc,144,bns,189,189(4),Unlawful assembly,false,auto,title_match
+ipc,151,bns,189,189(5),Unlawful assembly,false,auto,check
+ipc,150,bns,189,189(6),Unlawful assembly,false,auto,check
+ipc,157,bns,189,189(7),Unlawful assembly,false,auto,check
+ipc,158,bns,189,189(8),Unlawful assembly,false,auto,check
+ipc,149,bns,190,190,Every member of unlawful assembly guilty of offence committed in prosecution of common object,false,auto,title_match
+ipc,146,bns,191,191(1),Rioting,false,auto,title_match
+ipc,147,bns,191,191(2),Rioting,false,auto,check
+ipc,148,bns,191,191(3),Rioting,false,auto,check
+ipc,153,bns,192,192,Wantonly giving provocation with intent to cause riot- if rioting be committed; if not committed,false,auto,title_match
+ipc,154,bns,193,193(1),"Liability of owner, occupier, etc., of land on which an unlawful assembly or riot takes place",false,auto,title_match
+ipc,155,bns,193,193(2),"Liability of owner, occupier, etc., of land on which an unlawful assembly or riot takes place",false,auto,check
+ipc,156,bns,193,193(3),"Liability of owner, occupier, etc., of land on which an unlawful assembly or riot takes place",false,auto,check
+ipc,159,bns,194,194(1),Affray,false,auto,title_match
+ipc,160,bns,194,194(2),Affray,false,auto,check
+ipc,152,bns,195,195,"Assaulting or obstructing public servant when suppressing riot, etc",false,auto,title_match
+ipc,153A,bns,196,196,"Promoting enmity between different groups on grounds of religion, race, place of birth, residence, language, etc., and doing acts prejudicial to maintenance of harmony",false,auto,title_match
+ipc,153B,bns,197,197,"Imputations, assertions prejudicial to national integration",false,auto,title_match
+ipc,166,bns,198,198,"Public servant disobeying law, with intent to cause injury to any person",false,auto,title_match
+ipc,166A,bns,199,199,Public servant disobeying direction under law,false,auto,title_match
+ipc,166B,bns,200,200,Punishment for non-treatment of victim,false,auto,title_match
+ipc,167,bns,201,201,Public servant framing an incorrect document with intent to cause injury,false,auto,title_match
+ipc,168,bns,202,202,Public servant unlawfully engaging in trade,false,auto,title_match
+ipc,169,bns,203,203,Public servant unlawfully buying or bidding for property,false,auto,title_match
+ipc,170,bns,204,204,Personating a public servant,false,auto,title_match
+ipc,171,bns,205,205,Wearing garb or carrying token used by public servant with fraudulent intent,false,auto,title_match
+ipc,172,bns,206,206,Absconding to avoid service of summons or other proceeding,false,auto,title_match
+ipc,173,bns,207,207,"Preventing service of summons or other proceeding, or preventing publication thereof",false,auto,title_match
+ipc,174,bns,208,208,Non-attendance in obedience to an order from public servant,false,auto,title_match
+ipc,174A,bns,209,209,"Non-appearance in response to a proclamation under section 84 of Bharatiya Nagarik Suraksha Sanhita, 2023",false,auto,title_match
+ipc,175,bns,210,210,Omission to produce document or electronic record to public servant by person legally bound to produce it,false,auto,title_match
+ipc,176,bns,211,211,Omission to give notice or information to public servant by person legally bound to give it,false,auto,title_match
+ipc,177,bns,212,212,Furnishing false information,false,auto,title_match
+ipc,178,bns,213,213,Refusing oath or affirmation when duly required by public servant to make it,false,auto,title_match
+ipc,179,bns,214,214,Refusing to answer public servant authorised to question,false,auto,title_match
+ipc,180,bns,215,215,Refusing to sign statement,false,auto,title_match
+ipc,181,bns,216,216,False statement on oath or affirmation to public servant or person authorised to administer an oath or affirmation,false,auto,title_match
+ipc,182,bns,217,217,"False information, with intent to cause public servant to use his lawful power to injury of another person",false,auto,title_match
+ipc,183,bns,218,218,Resistance to taking of property by lawful authority of a public servant,false,auto,title_match
+ipc,184,bns,219,219,Obstructing sale of property offered for sale by authority of public servant,false,auto,title_match
+ipc,185,bns,220,220,Illegal purchase or bid for property offered for sale by authority of public servant,false,auto,title_match
+ipc,186,bns,221,221,Obstructing public servant in discharge of public functions,false,auto,title_match
+ipc,187,bns,222,222,Omission to assist public servant when bound by law to give assistance,false,auto,title_match
+ipc,188,bns,223,223,Disobedience to order duly promulgated by public servant,false,auto,title_match
+ipc,189,bns,224,224,Threat of injury to public servant,false,auto,title_match
+ipc,190,bns,225,225,Threat of injury to induce person to refrain from applying for protection to public servant,false,auto,title_match
+ipc,191,bns,227,227,Giving false evidence,false,auto,title_match
+ipc,192,bns,228,228,Fabricating false evidence,false,auto,title_match
+ipc,193,bns,229,229,Punishment for false evidence,false,auto,title_match
+ipc,194,bns,230,230,Giving or fabricating false evidence with intent to procure conviction of capital offence,false,auto,title_match
+ipc,195,bns,231,231,Giving or fabricating false evidence with intent to procure conviction of offence punishable with imprisonment for life or imprisonment,false,auto,title_match
+ipc,195A,bns,232,232,Threatening any person to give false evidence,false,auto,title_match
+ipc,196,bns,233,233,Using evidence known to be false,false,auto,title_match
+ipc,197,bns,234,234,Issuing or signing false certificate,false,auto,title_match
+ipc,198,bns,235,235,Using as true a certificate known to be false,false,auto,title_match
+ipc,199,bns,236,236,False statement made in declaration which is by law receivable as evidence,false,auto,title_match
+ipc,200,bns,237,237,Using as true such declaration knowing it to be false,false,auto,title_match
+ipc,201,bns,238,238,"Causing disappearance of evidence of offence, or giving false information to screen offender",false,auto,title_match
+ipc,202,bns,239,239,Intentional omission to give information of offence by person bound to inform,false,auto,title_match
+ipc,203,bns,240,240,Giving false information respecting an offence committed,false,auto,title_match
+ipc,204,bns,241,241,Destruction of document or electronic record to prevent its production as evidence,false,auto,check
+ipc,205,bns,242,242,False personation for purpose of act or proceeding in suit or prosecution,false,auto,title_match
+ipc,206,bns,243,243,Fraudulent removal or concealment of property to prevent its seizure as forfeited or in execution,false,auto,title_match
+ipc,207,bns,244,244,Fraudulent claim to property to prevent its seizure as forfeited or in execution,false,auto,title_match
+ipc,208,bns,245,245,Fraudulently suffering decree for sum not due,false,auto,title_match
+ipc,209,bns,246,246,Dishonestly making false claim in Court,false,auto,title_match
+ipc,210,bns,247,247,Fraudulently obtaining decree for sum not due,false,auto,title_match
+ipc,211,bns,248,248,False charge of offence made with intent to injure,false,auto,title_match
+ipc,212,bns,249,249,Harbouring offender,false,auto,title_match
+ipc,213,bns,250,250,"Taking gift, etc., to screen an offender from punishment",false,auto,title_match
+ipc,214,bns,251,251,Offering gift or restoration of property in consideration of screening offender,false,auto,title_match
+ipc,215,bns,252,252,"Taking gift to help to recover stolen property, etc",false,auto,title_match
+ipc,216,bns,253,253,Harbouring offender who has escaped from custody or whose apprehension has been ordered,false,auto,title_match
+ipc,216A,bns,254,254,Penalty for harbouring robbers or dacoits,false,auto,title_match
+ipc,217,bns,255,255,Public servant disobeying direction of law with intent to save person from punishment or property from forfeiture,false,auto,title_match
+ipc,218,bns,256,256,Public servant framing incorrect record or writing with intent to save person from punishment or property from forfeiture,false,auto,title_match
+ipc,219,bns,257,257,"Public servant in judicial proceeding corruptly making report, etc., contrary to law",false,auto,title_match
+ipc,220,bns,258,258,Commitment for trial or confinement by person having authority who knows that he is acting contrary to law,false,auto,title_match
+ipc,221,bns,259,259,Intentional omission to apprehend on part of public servant bound to apprehend,false,auto,title_match
+ipc,222,bns,260,260,Intentional omission to apprehend on part of public servant bound to apprehend person under sentence or lawfully committed,false,auto,title_match
+ipc,223,bns,261,261,Escape from confinement or custody negligently suffered by public servant,false,auto,title_match
+ipc,224,bns,262,262,Resistance or obstruction by a person to his lawful apprehension,false,auto,title_match
+ipc,225,bns,263,263,Resistance or obstruction to lawful apprehension of another person,false,auto,title_match
+ipc,225A,bns,264,264,"Omission to apprehend, or sufferance of escape, on part of public servant, in cases not otherwise provided for",false,auto,title_match
+ipc,225B,bns,265,265,Resistance or obstruction to lawful apprehension or escape or rescue in cases not otherwise provided for,false,auto,title_match
+ipc,227,bns,266,266,Violation of condition of remission of punishment,false,auto,title_match
+ipc,228,bns,267,267,Intentional insult or interruption to public servant sitting in judicial proceeding,false,auto,title_match
+ipc,229,bns,268,268,Personation of assessor,false,auto,title_match
+ipc,229A,bns,269,269,Failure by person released on bail or bond to appear in Court,false,auto,title_match
+ipc,268,bns,270,270,Public nuisance,false,auto,title_match
+ipc,269,bns,271,271,Negligent act likely to spread infection of disease dangerous to life,false,auto,title_match
+ipc,270,bns,272,272,Malignant act likely to spread infection of disease dangerous to life,false,auto,title_match
+ipc,271,bns,273,273,Disobedience to quarantine rule,false,auto,title_match
+ipc,272,bns,274,274,Adulteration of food or drink intended for sale,false,auto,title_match
+ipc,273,bns,275,275,Sale of noxious food or drink,false,auto,title_match
+ipc,274,bns,276,276,Adulteration of drugs,false,auto,title_match
+ipc,275,bns,277,277,Sale of adulterated drugs,false,auto,title_match
+ipc,276,bns,278,278,Sale of drug as a different drug or preparation,false,auto,title_match
+ipc,277,bns,279,279,Fouling water of public spring or reservoir,false,auto,title_match
+ipc,278,bns,280,280,Making atmosphere noxious to health,false,auto,title_match
+ipc,279,bns,281,281,Rash driving or riding on a public way,false,auto,title_match
+ipc,280,bns,282,282,Rash navigation of vessel,false,auto,title_match
+ipc,281,bns,283,283,"Exhibition of false light, mark or buoy",false,auto,title_match
+ipc,282,bns,284,284,Conveying person by water for hire in unsafe or overloaded vessel,false,auto,title_match
+ipc,283,bns,285,285,Danger or obstruction in public way or line of navigation,false,auto,title_match
+ipc,284,bns,286,286,Negligent conduct with respect to poisonous substance,false,auto,title_match
+ipc,285,bns,287,287,Negligent conduct with respect to fire or combustible matter,false,auto,title_match
+ipc,286,bns,288,288,Negligent conduct with respect to explosive substance,false,auto,title_match
+ipc,287,bns,289,289,Negligent conduct with respect to machinery,false,auto,title_match
+ipc,288,bns,290,290,"Negligent conduct with respect to pulling down, repairing or constructing buildings, etc",false,auto,title_match
+ipc,289,bns,291,291,Negligent conduct with respect to animal,false,auto,title_match
+ipc,290,bns,292,292,Punishment for public nuisance in cases not otherwise provided for,false,auto,title_match
+ipc,291,bns,293,293,Continuance of nuisance after injunction to discontinue,false,auto,title_match
+ipc,292,bns,294,294,"Sale, etc., of obscene books, etc",false,auto,title_match
+ipc,293,bns,295,295,"Sale, etc., of obscene objects to child",false,auto,title_match
+ipc,294,bns,296,296,Obscene acts and songs,false,auto,title_match
+ipc,294A,bns,297,297,Keeping lottery office,false,auto,title_match
+ipc,295,bns,298,298,Injuring or defiling place of worship with intent to insult religion of any class,false,auto,title_match
+ipc,295A,bns,299,299,"Deliberate and malicious acts, intended to outrage religious feelings of any class by insulting its religion or religious beliefs",false,auto,title_match
+ipc,296,bns,300,300,Disturbing religious assembly,false,auto,title_match
+ipc,297,bns,301,301,"Trespassing on burial places, etc",false,auto,title_match
+ipc,298,bns,302,302,"Uttering words, etc., with deliberate intent to wound religious feelings of any person",false,auto,title_match
+ipc,378,bns,303,303(1),Theft,false,auto,title_match
+ipc,380,bns,305,305,"Theft in a dwelling house, or means of transportation or place",false,auto,title_match
+ipc,381,bns,306,306,Theft by clerk or servant of property in possession of master,false,auto,title_match
+ipc,382,bns,307,307,"Theft after preparation made for causing death, hurt or restraint in order to committing of theft",false,auto,title_match
+ipc,383,bns,308,308(1),Extortion,false,auto,title_match
+ipc,384,bns,308,308(2),Extortion,false,auto,check
+ipc,385,bns,308,308(3),Extortion,false,auto,check
+ipc,387,bns,308,308(4),Extortion,false,auto,check
+ipc,386,bns,308,308(5),Extortion,false,auto,title_match
+ipc,389,bns,308,308(6),Extortion,false,auto,check
+ipc,388,bns,308,308(7),Extortion,false,auto,title_match
+ipc,390,bns,309,309(1)(2)(3),Robbery,false,auto,title_match
+ipc,392,bns,309,309(4),Robbery,false,auto,check
+ipc,393,bns,309,309(5),Robbery,false,auto,check
+ipc,394,bns,309,309(6),Robbery,false,auto,check
+ipc,391,bns,310,310(1),Dacoity,false,auto,title_match
+ipc,395,bns,310,310(2),Dacoity,false,auto,check
+ipc,396,bns,310,310(3),Dacoity,false,auto,check
+ipc,399,bns,310,310(4),Dacoity,false,auto,check
+ipc,402,bns,310,310(5),Dacoity,false,auto,check
+ipc,400,bns,310,310(6),Dacoity,false,auto,check
+ipc,397,bns,311,311,"Robbery, or dacoity, with attempt to cause death or grievous hurt",false,auto,title_match
+ipc,398,bns,312,312,Attempt to commit robbery or dacoity when armed with deadly weapon,false,auto,title_match
+ipc,401,bns,313,313,"Punishment for belonging to gang of robbers, etc",false,auto,check
+ipc,403,bns,314,314,Dishonest misappropriation of property,false,auto,title_match
+ipc,404,bns,315,315,Dishonest misappropriation of property possessed by deceased person at the time of his death,false,auto,title_match
+ipc,405,bns,316,316(1),Criminal breach of trust,false,auto,title_match
+ipc,407,bns,316,316(3),Criminal breach of trust,false,auto,title_match
+ipc,408,bns,316,316(4),Criminal breach of trust,false,auto,title_match
+ipc,409,bns,316,316(5),Criminal breach of trust,false,auto,title_match
+ipc,410,bns,317,317(1),Stolen property,false,auto,title_match
+ipc,411,bns,317,317(2),Stolen property,false,auto,check
+ipc,412,bns,317,317(3),Stolen property,false,auto,check
+ipc,413,bns,317,317(4),Stolen property,false,auto,check
+ipc,414,bns,317,317(5),Stolen property,false,auto,check
+ipc,415,bns,318,318(1),Cheating,false,auto,title_match
+ipc,417,bns,318,318(2),Cheating,false,auto,check
+ipc,418,bns,318,318(3),Cheating,false,auto,check
+ipc,416,bns,319,319(1),Cheating by personation,false,auto,title_match
+ipc,419,bns,319,319(2),Cheating by personation,false,auto,check
+ipc,421,bns,320,320,Dishonest or fraudulent removal or concealment of property to prevent distribution among creditors,false,auto,title_match
+ipc,422,bns,321,321,Dishonestly or fraudulently preventing debt being available for creditors,false,auto,title_match
+ipc,423,bns,322,322,Dishonest or fraudulent execution of deed of transfer containing false statement of consideration,false,auto,title_match
+ipc,424,bns,323,323,Dishonest or fraudulent removal or concealment of property,false,auto,title_match
+ipc,425,bns,324,324(1),Mischief,false,auto,title_match
+ipc,426,bns,324,324(2),Mischief,false,auto,check
+ipc,427,bns,324,324(3),Mischief,false,auto,check
+ipc,427,bns,324,324(4),Mischief,false,auto,check
+ipc,440,bns,324,324(5),Mischief,false,auto,check
+ipc,440,bns,324,324(6),Mischief,false,auto,check
+ipc,428,bns,325,325,Mischief by killing or maiming animal,false,auto,title_match
+ipc,429,bns,325,325,Mischief by killing or maiming animal,false,auto,title_match
+ipc,430,bns,326,326(a),"Mischief by injury, inundation, fire or explosive substance, etc",false,auto,check
+ipc,431,bns,326,326(b),"Mischief by injury, inundation, fire or explosive substance, etc",false,auto,check
+ipc,432,bns,326,326(c),"Mischief by injury, inundation, fire or explosive substance, etc",false,auto,check
+ipc,433,bns,326,326(d),"Mischief by injury, inundation, fire or explosive substance, etc",false,auto,check
+ipc,434,bns,326,326(e),"Mischief by injury, inundation, fire or explosive substance, etc",false,auto,check
+ipc,435,bns,326,326(f),"Mischief by injury, inundation, fire or explosive substance, etc",false,auto,check
+ipc,436,bns,326,326(g),"Mischief by injury, inundation, fire or explosive substance, etc",false,auto,check
+ipc,437,bns,327,327(1),"Mischief with intent to destroy or make unsafe a rail, aircraft, decked vessel or one of twenty tons burden",false,auto,title_match
+ipc,438,bns,327,327(2),"Mischief with intent to destroy or make unsafe a rail, aircraft, decked vessel or one of twenty tons burden",false,auto,check
+ipc,439,bns,328,328,"Punishment for intentionally running vessel aground or ashore with intent to commit theft, etc",false,auto,title_match
+ipc,441,bns,329,329(1),Criminal trespass and house-trespass,false,auto,title_match
+ipc,442,bns,329,329(2),Criminal trespass and house-trespass,false,auto,check
+ipc,447,bns,329,329(3),Criminal trespass and house-trespass,false,auto,check
+ipc,448,bns,329,329(4),Criminal trespass and house-trespass,false,auto,check
+ipc,443,bns,330,330(1),House-trespass and house-breaking,false,auto,check
+ipc,445,bns,330,330(2),House-trespass and house-breaking,false,auto,check
+ipc,453,bns,331,331(1),Punishment for house-trespass or house-breaking,false,auto,title_match
+ipc,456,bns,331,331(2),Punishment for house-trespass or house-breaking,false,auto,title_match
+ipc,454,bns,331,331(3),Punishment for house-trespass or house-breaking,false,auto,check
+ipc,457,bns,331,331(4),Punishment for house-trespass or house-breaking,false,auto,check
+ipc,455,bns,331,331(5),Punishment for house-trespass or house-breaking,false,auto,check
+ipc,458,bns,331,331(6),Punishment for house-trespass or house-breaking,false,auto,check
+ipc,459,bns,331,331(7),Punishment for house-trespass or house-breaking,false,auto,check
+ipc,460,bns,331,331(8),Punishment for house-trespass or house-breaking,false,auto,check
+ipc,449,bns,332,332(a),House-trespass in order to commit offence,false,auto,title_match
+ipc,450,bns,332,332(b),House-trespass in order to commit offence,false,auto,title_match
+ipc,451,bns,332,332(c),House-trespass in order to commit offence,false,auto,title_match
+ipc,452,bns,333,333,"House-trespass after preparation for hurt, assault or wrongful restraint",false,auto,title_match
+ipc,461,bns,334,334(1),Dishonestly breaking open receptacle containing property,false,auto,title_match
+ipc,462,bns,334,334(2),Dishonestly breaking open receptacle containing property,false,auto,check
+ipc,464,bns,335,335,Making a false document,false,auto,title_match
+ipc,463,bns,336,336(1),Forgery,false,auto,title_match
+ipc,465,bns,336,336(2),Forgery,false,auto,check
+ipc,468,bns,336,336(3),Forgery,false,auto,check
+ipc,469,bns,336,336(4),Forgery,false,auto,check
+ipc,466,bns,337,337,"Forgery of record of Court or of public register, etc",false,auto,title_match
+ipc,467,bns,338,338,"Forgery of valuable security, will, etc",false,auto,title_match
+ipc,474,bns,339,339,"Having possession of document described in section 337 or section 338, knowing it to be forged and intending to use it as genuine",false,auto,title_match
+ipc,470,bns,340,340(1),Forged document or electronic record and using it as genuine,false,auto,title_match
+ipc,471,bns,340,340(2),Forged document or electronic record and using it as genuine,false,auto,check
+ipc,472,bns,341,341(1),"Making or possessing counterfeit seal, etc., with intent to commit forgery punishable under section 338",false,auto,title_match
+ipc,473,bns,341,341(2),"Making or possessing counterfeit seal, etc., with intent to commit forgery punishable under section 338",false,auto,title_match
+ipc,475,bns,342,342(1),"Counterfeiting device or mark used for authenticating documents described in section 338, or possessing counterfeit marked material",false,auto,title_match
+ipc,476,bns,342,342(2),"Counterfeiting device or mark used for authenticating documents described in section 338, or possessing counterfeit marked material",false,auto,title_match
+ipc,477,bns,343,343,"Fraudulent cancellation, destruction, etc., of will, authority to adopt, or valuable security",false,auto,title_match
+ipc,477A,bns,344,344,Falsification of accounts,false,auto,title_match
+ipc,479,bns,345,345(1),Property mark,false,auto,title_match
+ipc,481,bns,345,345(2),Property mark,false,auto,check
+ipc,482,bns,345,345(3),Property mark,false,auto,check
+ipc,489,bns,346,346,Tampering with property mark with intent to cause injury,false,auto,title_match
+ipc,483,bns,347,347(1),Counterfeiting a property mark,false,auto,title_match
+ipc,484,bns,347,347(2),Counterfeiting a property mark,false,auto,check
+ipc,485,bns,348,348,Making or possession of any instrument for counterfeiting a property mark,false,auto,title_match
+ipc,486,bns,349,349,Selling goods marked with a counterfeit property mark,false,auto,title_match
+ipc,487,bns,350,350(1),Making a false mark upon any receptacle containing goods,false,auto,title_match
+ipc,488,bns,350,350(2),Making a false mark upon any receptacle containing goods,false,auto,check
+ipc,503,bns,351,351(1),Criminal intimidation,false,auto,title_match
+ipc,507,bns,351,351(4),Criminal intimidation,false,auto,title_match
+ipc,505,bns,353,353,Statements conducing to public mischief,false,auto,title_match
+ipc,508,bns,354,354,Act caused by inducing person to believe that he will be rendered an object of Divine displeasure,false,auto,title_match
+ipc,510,bns,355,355,Misconduct in public by a drunken person,false,auto,title_match
+ipc,499,bns,356,356(1),Defamation,false,auto,title_match
+ipc,500,bns,356,356(2),Defamation,false,auto,check
+ipc,501,bns,356,356(3),Defamation,false,auto,check
+ipc,502,bns,356,356(4),Defamation,false,auto,check
+ipc,491,bns,357,357,Breach of contract to attend on and supply wants of helpless person,false,auto,title_match
