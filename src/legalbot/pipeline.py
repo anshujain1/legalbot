@@ -4,6 +4,7 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 from .concordance import Concordance
+from .context import ContextExpander, ExpansionConfig
 from .config import Settings, get_settings
 from .embeddings import get_embedder
 from .generate import INSUFFICIENT, LLM, SYSTEM_PROMPT, build_prompt, get_llm
@@ -13,7 +14,7 @@ from .rerank import CrossEncoderReranker
 from .retrieval import Mode, Retriever
 from .schema import Hit, SearchFilters
 from .store import QdrantStore
-from .verify import verify
+from .verify import normalize_citations, verify
 
 DISCLAIMER = "This is general legal information from the indexed texts, not legal advice. Check the current official text and consult a lawyer."
 
@@ -23,13 +24,20 @@ class LLMNotConfigured(RuntimeError):
 
 
 class Source(BaseModel):
-    label: str
-    act: str
+    chunk_id: str  # stable id: use as a React key
+    label: str  # citation label, e.g. "BNS §103"
+    act_id: str  # e.g. "bns": pass to GET /sections/{act_id}/{section_no}
+    act: str  # full act name
+    status: str  # "in_force" | "repealed" | ...
+    year: int | None
     section_no: str | None
     section_title: str | None
     chapter: str | None
+    clause_range: str | None  # set when a long section was split, e.g. "(1)–(3)"
+    part: str  # "1/3": which part of a split section this chunk is
     text: str
-    source: str
+    source: str  # "dense" | "sparse" | "hybrid" | "lookup" (pinned: user named the section) | "sibling" | "xref" | "definition" (context added after ranking)
+    via: str | None = None  # why a sibling/xref/definition is here, e.g. "BNS §103"
     score: float
 
 
@@ -50,13 +58,20 @@ def to_source(hit: Hit) -> Source:
     if c.chapter_no:
         chapter = f"Chapter {c.chapter_no}" + (f": {c.chapter_title}" if c.chapter_title else "")
     return Source(
+        chunk_id=c.chunk_id,
         label=c.label,
+        act_id=c.act_id,
         act=c.act_name,
+        status=c.status.value,
+        year=c.year,
         section_no=c.section_no,
         section_title=c.section_title,
         chapter=chapter,
+        clause_range=c.clause_range,
+        part=f"{c.part_index + 1}/{c.part_count}",
         text=c.text,
         source=hit.source,
+        via=hit.via,
         score=round(hit.score, 5),
     )
 
@@ -70,6 +85,7 @@ class LegalBot:
         llm: LLM | None = None,
         retriever: Retriever | None = None,
         settings: Settings | None = None,
+        expander: ContextExpander | None = None,
     ):
         self.store = store
         self.registry = registry
@@ -78,6 +94,7 @@ class LegalBot:
         self.settings = settings or store.settings
         self.retriever = retriever or Retriever(store)
         self.analyzer = QueryAnalyzer(registry, concordance)
+        self.expander = expander or ContextExpander(store, registry)
 
     def search(
         self,
@@ -98,11 +115,22 @@ class LegalBot:
         )
         return plan, hits
 
-    def ask(self, question: str, filters: SearchFilters | None = None, k: int | None = None) -> Answer:
+    def ask(
+        self, question: str, filters: SearchFilters | None = None, k: int | None = None, expand: bool = True
+    ) -> Answer:
         if self.llm is None:
             raise LLMNotConfigured("No LLM configured. Set GROQ_API_KEY (and install '.[llm]').")
 
         plan, hits = self.search(question, filters, k)
+        only_deleted = bool(plan.removed_refs) and set(plan.explicit_sections) <= set(plan.removed_refs)
+        if only_deleted:  # the question is about a deleted section: answer from the table, never let the model guess a successor
+            return Answer(
+                question=question,
+                answer=" ".join(n.split(" Do not present")[0] for n in plan.notes if "has no equivalent" in n),  # drop the sentence meant for the model
+                insufficient=False,
+                verified=True,
+                notes=plan.notes,
+            )
         if not hits:
             return Answer(
                 question=question,
@@ -112,8 +140,10 @@ class LegalBot:
                 notes=plan.notes,
             )
 
+        if expand:  # siblings, cross-references, definitions: context for the model, not part of the ranking
+            hits = self.expander.expand(hits)
         prompt = build_prompt(question, hits, plan.notes)
-        text = self.llm.complete(SYSTEM_PROMPT, prompt)
+        text = normalize_citations(self.llm.complete(SYSTEM_PROMPT, prompt), self.registry)
         check = verify(text, hits, self.registry, plan.mapped_refs)
 
         if not check.ok:  # one corrective retry, then surface the problem instead of hiding it
@@ -127,7 +157,7 @@ class LegalBot:
                 f"{prompt}\n\nYour previous answer was rejected because {problems}.\n"
                 f"Previous answer:\n{text}\n\nRewrite it using only the sources and their exact labels."
             )
-            text = self.llm.complete(SYSTEM_PROMPT, retry)
+            text = normalize_citations(self.llm.complete(SYSTEM_PROMPT, retry), self.registry)
             check = verify(text, hits, self.registry, plan.mapped_refs)
 
         warnings: list[str] = []
