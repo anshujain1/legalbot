@@ -1,10 +1,12 @@
-"""Retrieval evaluation against a gold set, with a dense / sparse / hybrid ablation.
+"""Retrieval evaluation against a gold set, with a dense / sparse / hybrid / pipeline ablation.
 
 Gold file: JSONL, one object per line:
   {"question": "...", "expected": [{"act": "bns", "section": "103"}], "category": "offence"}
 
-A question counts as a hit if ANY expected section appears in the top-k. Explicit section
-lookup is switched off so the numbers reflect search quality, not regex matching.
+A question counts as a hit if ANY expected section appears in the top-k. For dense / sparse / hybrid,
+explicit section lookup (and the IPC->BNS pinning) is switched off so the numbers reflect search quality,
+not regex matching. The extra "pipeline" row is hybrid WITH lookup, i.e. what a user actually gets:
+"IPC 302" is pinned to BNS 103 before ranking. Read it as a test of the concordance, not of the embeddings.
 """
 from __future__ import annotations
 
@@ -14,7 +16,7 @@ from pathlib import Path
 
 from .pipeline import LegalBot
 
-MODES = ("dense", "sparse", "hybrid")
+MODES = ("dense", "sparse", "hybrid", "pipeline")
 
 
 def load_gold(path: str | Path) -> list[dict]:
@@ -50,7 +52,8 @@ def evaluate(bot: LegalBot, gold: list[dict], k: int = 8, modes=MODES) -> dict:
         misses: list[dict] = []
         for row in gold:
             expected = {(e["act"], str(e["section"]).upper()) for e in row["expected"]}
-            _, hits = bot.search(row["question"], k=k, mode=mode, use_lookup=False)
+            real_mode, lookup = ("hybrid", True) if mode == "pipeline" else (mode, False)
+            _, hits = bot.search(row["question"], k=k, mode=real_mode, use_lookup=lookup)
             rank = _rank_of_first_expected(hits, expected)
             overall.append(rank)
             by_cat[row.get("category", "uncategorised")].append(rank)
@@ -75,9 +78,10 @@ def format_report(report: dict, k: int) -> str:
         lines.append(f"\nby category ({best}):")
         for c, m in cats.items():
             lines.append(f"  {c:<14} n={m['n']:<3} hit@1={m['hit@1']:.2f} hit@{k}={m[f'hit@{k}']:.2f} mrr={m['mrr']:.2f}")
-    misses = report[best]["misses"]
-    if misses:
-        lines.append(f"\nmisses ({best}):")
-        for m in misses:
-            lines.append(f"  - {m['question']}  (expected {m['expected']})")
+    for name in (best, "pipeline"):
+        misses = report.get(name, {}).get("misses", [])
+        if misses:
+            lines.append(f"\nmisses ({name}):")
+            for m in misses:
+                lines.append(f"  - {m['question']}  (expected {m['expected']})")
     return "\n".join(lines)
