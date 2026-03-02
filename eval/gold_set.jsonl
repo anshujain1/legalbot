@@ -1,12 +1,55 @@
 {"question": "What is the punishment for murder?", "expected": [{"act": "bns", "section": "103"}], "category": "offence"}
-{"question": "What is cheating and how is it punished?", "expected": [{"act": "bns", "section": "318"}], "category": "offence"}
-{"question": "Punishment for dowry death", "expected": [{"act": "bns", "section": "80"}], "category": "offence"}
-{"question": "What counts as theft and what is the penalty?", "expected": [{"act": "bns", "section": "303"}], "category": "offence"}
-{"question": "Cruelty by husband or relatives of the husband towards a wife", "expected": [{"act": "bns", "section": "85"}, {"act": "bns", "section": "86"}], "category": "offence"}
-{"question": "Assault on a woman with intent to outrage her modesty", "expected": [{"act": "bns", "section": "74"}], "category": "offence"}
-{"question": "What is the punishment for criminal intimidation?", "expected": [{"act": "bns", "section": "351"}], "category": "offence"}
-{"question": "Punishment for culpable homicide not amounting to murder", "expected": [{"act": "bns", "section": "105"}], "category": "offence"}
-{"question": "What is the punishment for rape?", "expected": [{"act": "bns", "section": "64"}], "category": "offence"}
-{"question": "Death caused by a negligent act", "expected": [{"act": "bns", "section": "106"}], "category": "offence"}
-{"question": "When is a person liable for an act done by several people with a common intention?", "expected": [{"act": "bns", "section": "3"}], "category": "general"}
-{"question": "Criminal conspiracy meaning and punishment", "expected": [{"act": "bns", "section": "61"}], "category": "general"}
+{"question": "Punishment if someone already serving a life sentence commits murder", "expected": [{"act": "bns", "section": "104"}], "category": "offence"}
+{"question": "What if a driver causes death by rash driving and runs away without reporting it?", "expected": [{"act": "bns", "section": "106"}], "category": "colloquial"}
+{"question": "Punishment for attempt to murder", "expected": [{"act": "bns", "section": "109"}], "category": "offence"}
+{"question": "Is abetting someone's suicide a crime?", "expected": [{"act": "bns", "section": "108"}], "category": "colloquial"}
+{"question": "What is organised crime and how is it punished?", "expected": [{"act": "bns", "section": "111"}], "category": "definition"}
+{"question": "What counts as a terrorist act?", "expected": [{"act": "bns", "section": "113"}], "category": "definition"}
+{"question": "What is grievous hurt?", "expected": [{"act": "bns", "section": "116"}], "category": "definition"}
+{"question": "Punishment for voluntarily causing grievous hurt", "expected": [{"act": "bns", "section": "117"}], "category": "offence"}
+{"question": "Hurting someone using a dangerous weapon", "expected": [{"act": "bns", "section": "118"}], "category": "colloquial"}
+{"question": "Dowry death: when is it presumed and what is the punishment?", "expected": [{"act": "bns", "section": "80"}], "category": "offence"}
+{"question": "Cruelty by a husband or his relatives towards a wife", "expected": [{"act": "bns", "section": "85"}, {"act": "bns", "section": "86"}], "category": "offence"}
+{"question": "Is stalking a woman online a crime?", "expected": [{"act": "bns", "section": "78"}], "category": "colloquial"}
+{"question": "Secretly watching or filming a woman in a private act", "expected": [{"act": "bns", "section": "77"}], "category": "colloquial"}
+{"question": "Sexual harassment of a woman, such as unwelcome physical contact or sexual remarks", "expected": [{"act": "bns", "section": "75"}], "category": "offence"}
+{"question": "Insulting the modesty of a woman by words or gestures", "expected": [{"act": "bns", "section": "79"}], "category": "offence"}
+{"question": "Assault or criminal force to a woman with intent to outrage her modesty", "expected": [{"act": "bns", "section": "74"}], "category": "offence"}
+{"question": "Punishment for rape", "expected": [{"act": "bns", "section": "64"}], "category": "offence"}
+{"question": "Gang rape", "expected": [{"act": "bns", "section": "70"}], "category": "colloquial"}
+{"question": "Sex obtained through a false promise of marriage or deceitful means", "expected": [{"act": "bns", "section": "69"}], "category": "colloquial"}
+{"question": "What is kidnapping?", "expected": [{"act": "bns", "section": "137"}], "category": "definition"}
+{"question": "Kidnapping a person for ransom", "expected": [{"act": "bns", "section": "140"}], "category": "colloquial"}
+{"question": "Trafficking of persons", "expected": [{"act": "bns", "section": "143"}], "category": "offence"}
+{"question": "Wrongful restraint of a person", "expected": [{"act": "bns", "section": "126"}], "category": "offence"}
+{"question": "Wrongful confinement of a person", "expected": [{"act": "bns", "section": "127"}], "category": "offence"}
+{"question": "What is theft and what is the punishment?", "expected": [{"act": "bns", "section": "303"}], "category": "definition"}
+{"question": "Snatching a chain or phone from a person and running", "expected": [{"act": "bns", "section": "304"}], "category": "colloquial"}
+{"question": "Extortion by putting someone in fear of injury", "expected": [{"act": "bns", "section": "308"}], "category": "offence"}
+{"question": "What is robbery?", "expected": [{"act": "bns", "section": "309"}], "category": "definition"}
+{"question": "Dacoity: robbery by five or more persons", "expected": [{"act": "bns", "section": "310"}], "category": "definition"}
+{"question": "Criminal breach of trust by an employee or agent", "expected": [{"act": "bns", "section": "316"}], "category": "offence"}
+{"question": "Cheating someone to deliver property", "expected": [{"act": "bns", "section": "318"}], "category": "offence"}
+{"question": "Cheating by pretending to be another person", "expected": [{"act": "bns", "section": "319"}], "category": "colloquial"}
+{"question": "Mischief causing damage to property", "expected": [{"act": "bns", "section": "324"}], "category": "offence"}
+{"question": "Entering someone's property to commit an offence", "expected": [{"act": "bns", "section": "329"}, {"act": "bns", "section": "331"}, {"act": "bns", "section": "332"}], "category": "colloquial"}
+{"question": "Forgery of documents", "expected": [{"act": "bns", "section": "336"}], "category": "offence"}
+{"question": "Threatening someone to cause alarm", "expected": [{"act": "bns", "section": "351"}], "category": "colloquial"}
+{"question": "Insulting someone intentionally to provoke a breach of the peace", "expected": [{"act": "bns", "section": "352"}], "category": "offence"}
+{"question": "Defamation", "expected": [{"act": "bns", "section": "356"}], "category": "offence"}
+{"question": "What is an unlawful assembly?", "expected": [{"act": "bns", "section": "189"}], "category": "definition"}
+{"question": "What is rioting and its punishment?", "expected": [{"act": "bns", "section": "191"}, {"act": "bns", "section": "192"}], "category": "definition"}
+{"question": "Promoting enmity between groups on grounds of religion, race or language", "expected": [{"act": "bns", "section": "196"}], "category": "offence"}
+{"question": "Acts endangering the sovereignty, unity and integrity of India", "expected": [{"act": "bns", "section": "152"}], "category": "offence"}
+{"question": "When is each member of a group liable for an act done with a common intention?", "expected": [{"act": "bns", "section": "3"}], "category": "definition"}
+{"question": "What is criminal conspiracy?", "expected": [{"act": "bns", "section": "61"}], "category": "definition"}
+{"question": "What is abetment of an offence?", "expected": [{"act": "bns", "section": "45"}], "category": "definition"}
+{"question": "Right of private defence of body and property", "expected": [{"act": "bns", "section": "35"}], "category": "definition"}
+{"question": "What is IPC 302 under the new law?", "expected": [{"act": "bns", "section": "103"}], "category": "oldref"}
+{"question": "What is IPC 420 now?", "expected": [{"act": "bns", "section": "318"}], "category": "oldref"}
+{"question": "IPC 498A is now which section?", "expected": [{"act": "bns", "section": "85"}], "category": "oldref"}
+{"question": "IPC 376 equivalent in BNS", "expected": [{"act": "bns", "section": "64"}], "category": "oldref"}
+{"question": "Which BNS section replaced IPC 304B?", "expected": [{"act": "bns", "section": "80"}], "category": "oldref"}
+{"question": "Section 379 IPC theft punishment now", "expected": [{"act": "bns", "section": "303"}], "category": "oldref"}
+{"question": "IPC 506 criminal intimidation, new section", "expected": [{"act": "bns", "section": "351"}], "category": "oldref"}
+{"question": "IPC 354 is what in the Sanhita?", "expected": [{"act": "bns", "section": "74"}], "category": "oldref"}
