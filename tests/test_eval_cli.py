@@ -35,7 +35,7 @@ def gold_file(tmp_path):
 
 def test_evaluate_reports_all_modes_and_categories(bot, gold_file):
     report = evaluate(bot, load_gold(gold_file), k=3)
-    assert set(report) == {"dense", "sparse", "hybrid"}
+    assert set(report) == {"dense", "sparse", "hybrid", "pipeline"}
     hyb = report["hybrid"]
     assert hyb["overall"]["n"] == 3
     assert hyb["overall"]["hit@3"] >= 2 / 3
