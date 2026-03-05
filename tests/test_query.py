@@ -65,4 +65,16 @@ def test_concordance_lookup_both_ways():
     assert c.forward("ipc", "302")[0].new_section == "103"
     assert c.backward("bns", "318")[0].old_section == "420"
     assert c.forward("ipc", "99999") == []
-    assert not any(m.verified for m in c.rows)  # starter data must stay flagged until checked
+    # the 19 hand-checked rows are verified; the rows read automatically from the table are not, until someone checks them
+    checked = {"34", "120B", "299", "300", "302", "304", "304A", "304B", "307", "323", "354", "376", "379", "406", "420", "498A", "504", "506", "509"}
+    assert all(c.forward("ipc", n)[0].verified for n in checked)
+    assert any(not m.verified for m in c.rows) and len(c.rows) > 500
+    assert c.forward("ipc", "506")[0].new_ref == "351(2), 351(3)"  # the table maps 506 to two sub-sections
+
+
+def test_unverified_rows_are_flagged_in_the_query_notes(tmp_path, analyzer):
+    from legalbot.concordance import Mapping
+
+    c = Concordance([Mapping("ipc", "420", "bns", "318", "318(4)", "Cheating", False)])
+    plan = QueryAnalyzer(analyzer.registry, c).plan("IPC 420")
+    assert any("unverified mapping" in n for n in plan.notes)
