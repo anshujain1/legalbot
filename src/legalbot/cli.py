@@ -13,12 +13,54 @@ from .ingest import chunk_statute_file, write_jsonl
 from .registry import ActRegistry
 
 
+def _cmd_crosswalk(args: argparse.Namespace) -> int:
+    import csv
+
+    from .config import DATA_DIR
+    from .crosswalk import extract_crosswalk, write_csv, write_deleted_csv
+    from .ingest import read_document
+
+    out = Path(args.out) if args.out else DATA_DIR / "ipc_to_bns.csv"
+    cw = extract_crosswalk(read_document(args.file))
+    keep: list[dict] = []
+    if out.exists():  # hand-checked rows survive a re-run; machine-read rows are regenerated
+        with out.open(encoding="utf-8", newline="") as f:
+            keep = [r for r in csv.DictReader(f) if (r.get("source") or "curated") != "auto"]
+    n = write_csv(cw, out, keep=keep)
+    del_out = out.with_name("ipc_deleted.csv")
+    keep_del: list[dict] = []
+    if del_out.exists():
+        with del_out.open(encoding="utf-8", newline="") as f:
+            keep_del = [r for r in csv.DictReader(f) if (r.get("source") or "curated") != "auto"]
+    n_del = write_deleted_csv(cw, del_out, keep=keep_del)
+    weak = sum(1 for r in cw.rows if r.similarity < 0.75)
+    print(json.dumps({
+        "bns_sections_seen": cw.bns_found,
+        "bns_sections_without_ipc_row": cw.bns_without_row,
+        "rows_extracted": len(cw.rows),
+        "rows_to_spot_check (IPC/BNS titles differ)": weak,
+        "bns_provisions_new_in_2023": cw.new_provisions,
+        "ipc_sections_deleted_no_successor": cw.deleted_ipc,
+        "rows_written": n,
+        "deleted_rows_written": n_del,
+    }, indent=2))
+    print(f"\nWrote {n} rows to {out}. Rows with source=auto are machine-read and verified=false: spot-check them.")
+    return 0
+
+
 def _cmd_ingest(args: argparse.Namespace) -> int:
     settings = get_settings()
     registry = ActRegistry.load()
     act = registry.get(args.act)
-    chunks = chunk_statute_file(args.file, act, max_chars=args.max_chars or settings.max_chunk_chars)
-    report = qa_report(chunks)
+    diag: dict = {}
+    chunks = chunk_statute_file(
+        args.file,
+        act,
+        max_chars=args.max_chars or settings.max_chunk_chars,
+        diagnostics=diag,
+        repair=not args.no_repair,
+    )
+    report = qa_report(chunks, expected_sections=act.expected_sections, diagnostics=diag)
 
     out = Path(args.out) if args.out else Path("data/processed") / f"{act.act_id}.chunks.jsonl"
     write_jsonl(chunks, out)
@@ -28,6 +70,20 @@ def _cmd_ingest(args: argparse.Namespace) -> int:
     if report["missing_section_numbers"]:
         print(f"WARNING: {len(report['missing_section_numbers'])} section numbers missing, e.g. "
               f"{report['missing_section_numbers'][:10]}. Check the source text or the parser.")
+    if report.get("stub_sections"):
+        print(f"WARNING: {len(report['stub_sections'])}+ sections contain only their title (body not captured), e.g. "
+              f"{report['stub_sections'][:10]}. Do not index this parse.")
+    if report.get("sections_match_expected") is False:
+        print(f"WARNING: parsed {report['sections']} sections but {act.short} has {report['expected_sections']}.")
+    if report.get("spacing_repairs"):
+        print(f"NOTE: repaired {report['spacing_repairs']} words split by extraction spacing (e.g. "
+              f"{', '.join(report['spacing_examples'][:5])}). Skim the full list with --show-repairs; "
+              f"turn it off with --no-repair.")
+        if args.show_repairs:
+            print("\n".join(f"  {line}" for line in report["spacing_examples"]))
+    if report.get("heading_unmatched"):
+        print(f"NOTE: heading not found above sections {report['heading_unmatched'][:10]}; "
+              f"their neighbours may carry a stray heading line.")
     if args.dry_run:
         return 0
 
@@ -140,6 +196,27 @@ def _cmd_eval(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_eval_answers(args: argparse.Namespace) -> int:
+    from .evaluate_answers import format_markdown, format_summary, load_answer_set, run
+    from .pipeline import build_bot
+
+    bot = build_bot()
+    if bot.llm is None:
+        print("No LLM configured: set GROQ_API_KEY in .env (and pip install -e '.[llm]').")
+        return 2
+    rows = load_answer_set(args.set)
+    if args.limit:
+        rows = rows[: args.limit]
+    report = run(bot, rows, k=args.k, sleep=args.sleep, progress=lambda i, n, q: print(f"[{i}/{n}] {q[:70]}", flush=True))
+    print("\n" + format_summary(report))
+    if args.json:
+        Path(args.json).write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    if args.md:
+        Path(args.md).write_text(format_markdown(report), encoding="utf-8")
+        print(f"\nWrote {args.md}: read it and grade the answers yourself (or ask a lawyer to).")
+    return 0
+
+
 def _cmd_serve(args: argparse.Namespace) -> int:
     import uvicorn
 
@@ -157,7 +234,14 @@ def main(argv: list[str] | None = None) -> int:
     ing.add_argument("--max-chars", type=int, default=None)
     ing.add_argument("--out", default=None, help="chunks.jsonl path (default data/processed/<act>.chunks.jsonl)")
     ing.add_argument("--dry-run", action="store_true", help="chunk and report only; do not embed or index")
+    ing.add_argument("--no-repair", action="store_true", help="do not repair words split by extraction spaces")
+    ing.add_argument("--show-repairs", action="store_true", help="print the repairs made (to check for false joins)")
     ing.set_defaults(fn=_cmd_ingest)
+
+    cx = sub.add_parser("crosswalk", help="extract the IPC->BNS comparison table from a Sankalan-style BNS text into ipc_to_bns.csv")
+    cx.add_argument("file")
+    cx.add_argument("--out", default=None, help="CSV path (default: the packaged src/legalbot/data/ipc_to_bns.csv)")
+    cx.set_defaults(fn=_cmd_crosswalk)
 
     sc = sub.add_parser("scrape", help="download an Act's official PDF into data/raw (obeys robots.txt, rate-limited, cached)")
     sc.add_argument("--act", required=True, help="act id from acts.yaml, e.g. bns")
@@ -189,6 +273,15 @@ def main(argv: list[str] | None = None) -> int:
     ev.add_argument("-k", type=int, default=8)
     ev.add_argument("--json", default=None, help="also write the full report as JSON")
     ev.set_defaults(fn=_cmd_eval)
+
+    ea = sub.add_parser("eval-answers", help="answer quality + refusal test (needs GROQ_API_KEY); writes a markdown review file")
+    ea.add_argument("--set", default="eval/answer_set.jsonl")
+    ea.add_argument("-k", type=int, default=8)
+    ea.add_argument("--sleep", type=float, default=2.0, help="seconds between questions (Groq free tier rate limits)")
+    ea.add_argument("--limit", type=int, default=0, help="only the first N questions (quick trial)")
+    ea.add_argument("--json", default=None)
+    ea.add_argument("--md", default="answer_review.md")
+    ea.set_defaults(fn=_cmd_eval_answers)
 
     sv = sub.add_parser("serve", help="run the FastAPI server")
     sv.add_argument("--host", default="127.0.0.1")

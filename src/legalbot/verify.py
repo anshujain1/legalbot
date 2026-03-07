@@ -29,6 +29,28 @@ class Verification:
         return self.insufficient or self.has_citation
 
 
+_ZERO_WIDTH = dict.fromkeys(map(ord, "\u200b\u200c\u200d\u2060\ufeff"))
+_BRACKETED = re.compile(r"(\[[^\]]*\])")
+
+
+def normalize_citations(text: str, registry: ActRegistry | None = None) -> str:
+    """Make model citation styles uniform so they can be verified and linked: some models emit
+    full-width brackets (【BNS §356】), zero-width spaces, bold inside brackets ([**BNS §143**]) or a bare
+    'BNS §309'. All become '[BNS §309]'. Text outside citations is left alone."""
+    text = text.translate(_ZERO_WIDTH).replace("【", "[").replace("】", "]")
+    shorts = sorted((re.escape(s) for s in registry.shorts()), key=len, reverse=True) if registry else []
+    bare = re.compile(rf"\b({'|'.join(shorts)})\s*§\s*(\d{{1,3}}[A-Za-z]{{0,2}})\b(?:\s*\((?:\d+|[a-z])\))*") if shorts else None
+    out: list[str] = []
+    for part in _BRACKETED.split(text):
+        if part.startswith("[") and part.endswith("]"):
+            out.append(part.replace("*", "").replace("_", " ").strip() if "§" in part else part)
+        elif bare is not None:
+            out.append(bare.sub(lambda m: f"[{m.group(1).upper()} §{m.group(2)}]", part.replace("**", "")))
+        else:
+            out.append(part)
+    return "".join(out)
+
+
 def _free_text_pattern(registry: ActRegistry) -> re.Pattern:
     shorts = "|".join(sorted((re.escape(s) for s in registry.shorts()), key=len, reverse=True))
     return re.compile(rf"\b({shorts})\b\s*(?:sections?|sec\.?|§)?\s*(\d{{1,3}}[A-Za-z]{{0,2}})(?![\d])", re.IGNORECASE)
