@@ -1,0 +1,25 @@
+{"question": "What is the punishment for murder under the BNS?", "expected": [{"act": "bns", "section": "103"}], "category": "heldout"}
+{"question": "My neighbour threatened to kill me. Which section covers that?", "expected": [{"act": "bns", "section": "351"}], "category": "heldout"}
+{"question": "What is the punishment for theft?", "expected": [{"act": "bns", "section": "303"}], "category": "heldout"}
+{"question": "Someone snatched my phone while I was walking and ran away. What offence is this?", "expected": [{"act": "bns", "section": "304"}], "category": "heldout"}
+{"question": "What is the difference between theft and robbery?", "expected": [{"act": "bns", "section": "303"}, {"act": "bns", "section": "309"}], "category": "heldout"}
+{"question": "What counts as cheating under the BNS?", "expected": [{"act": "bns", "section": "318"}], "category": "heldout"}
+{"question": "A man is harassing his wife for dowry. What does the law say?", "expected": [{"act": "bns", "section": "85"}, {"act": "bns", "section": "86"}, {"act": "bns", "section": "80"}], "category": "heldout"}
+{"question": "Is stalking a crime?", "expected": [{"act": "bns", "section": "78"}], "category": "heldout"}
+{"question": "What is the punishment for rape?", "expected": [{"act": "bns", "section": "64"}], "category": "heldout"}
+{"question": "What is gang rape and how is it punished?", "expected": [{"act": "bns", "section": "70"}], "category": "heldout"}
+{"question": "What is defamation and what is the punishment?", "expected": [{"act": "bns", "section": "356"}], "category": "heldout"}
+{"question": "What is kidnapping?", "expected": [{"act": "bns", "section": "137"}], "category": "heldout"}
+{"question": "What is the punishment for trafficking of persons?", "expected": [{"act": "bns", "section": "143"}], "category": "heldout"}
+{"question": "What is criminal conspiracy?", "expected": [{"act": "bns", "section": "61"}], "category": "heldout"}
+{"question": "What is the right of private defence?", "expected": [{"act": "bns", "section": "35"}], "category": "heldout"}
+{"question": "What is an unlawful assembly?", "expected": [{"act": "bns", "section": "189"}], "category": "heldout"}
+{"question": "What is the punishment for rioting?", "expected": [{"act": "bns", "section": "191"}, {"act": "bns", "section": "192"}], "category": "heldout"}
+{"question": "What is grievous hurt?", "expected": [{"act": "bns", "section": "116"}], "category": "heldout"}
+{"question": "Is abetment of suicide an offence?", "expected": [{"act": "bns", "section": "108"}], "category": "heldout"}
+{"question": "What is organised crime under the BNS?", "expected": [{"act": "bns", "section": "111"}], "category": "heldout"}
+{"question": "What is a terrorist act under the BNS?", "expected": [{"act": "bns", "section": "113"}], "category": "heldout"}
+{"question": "What is the punishment for forgery?", "expected": [{"act": "bns", "section": "336"}], "category": "heldout"}
+{"question": "What is IPC 420 called now and what is the punishment?", "expected": [{"act": "bns", "section": "318"}], "category": "heldout"}
+{"question": "Which BNS section replaced IPC 302?", "expected": [{"act": "bns", "section": "103"}], "category": "heldout"}
+{"question": "What is IPC 498A in the new code?", "expected": [{"act": "bns", "section": "85"}], "category": "heldout"}
