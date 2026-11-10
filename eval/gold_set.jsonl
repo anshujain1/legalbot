@@ -1,0 +1,12 @@
+{"question": "What is the punishment for murder?", "expected": [{"act": "bns", "section": "103"}], "category": "offence"}
+{"question": "What is cheating and how is it punished?", "expected": [{"act": "bns", "section": "318"}], "category": "offence"}
+{"question": "Punishment for dowry death", "expected": [{"act": "bns", "section": "80"}], "category": "offence"}
+{"question": "What counts as theft and what is the penalty?", "expected": [{"act": "bns", "section": "303"}], "category": "offence"}
+{"question": "Cruelty by husband or relatives of the husband towards a wife", "expected": [{"act": "bns", "section": "85"}, {"act": "bns", "section": "86"}], "category": "offence"}
+{"question": "Assault on a woman with intent to outrage her modesty", "expected": [{"act": "bns", "section": "74"}], "category": "offence"}
+{"question": "What is the punishment for criminal intimidation?", "expected": [{"act": "bns", "section": "351"}], "category": "offence"}
+{"question": "Punishment for culpable homicide not amounting to murder", "expected": [{"act": "bns", "section": "105"}], "category": "offence"}
+{"question": "What is the punishment for rape?", "expected": [{"act": "bns", "section": "64"}], "category": "offence"}
+{"question": "Death caused by a negligent act", "expected": [{"act": "bns", "section": "106"}], "category": "offence"}
+{"question": "When is a person liable for an act done by several people with a common intention?", "expected": [{"act": "bns", "section": "3"}], "category": "general"}
+{"question": "Criminal conspiracy meaning and punishment", "expected": [{"act": "bns", "section": "61"}], "category": "general"}
