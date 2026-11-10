@@ -1,0 +1,53 @@
+# Act registry. Keys are act_ids used in chunk metadata and filters.
+# Add an entry here before ingesting a new Act.
+
+bns:
+  name: Bharatiya Nyaya Sanhita, 2023
+  short: BNS
+  year: 2023
+  status: in_force
+  effective_from: "2024-07-01"
+  replaces: [ipc]
+  aliases: [bns, bharatiya nyaya sanhita, nyaya sanhita]
+
+bnss:
+  name: Bharatiya Nagarik Suraksha Sanhita, 2023
+  short: BNSS
+  year: 2023
+  status: in_force
+  effective_from: "2024-07-01"
+  replaces: [crpc]
+  aliases: [bnss, bharatiya nagarik suraksha sanhita, nagarik suraksha sanhita]
+
+bsa:
+  name: Bharatiya Sakshya Adhiniyam, 2023
+  short: BSA
+  year: 2023
+  status: in_force
+  effective_from: "2024-07-01"
+  replaces: [iea]
+  aliases: [bsa, bharatiya sakshya adhiniyam, sakshya adhiniyam]
+
+ipc:
+  name: Indian Penal Code, 1860
+  short: IPC
+  year: 1860
+  status: repealed
+  replaced_by: bns
+  aliases: [ipc, indian penal code, penal code]
+
+crpc:
+  name: Code of Criminal Procedure, 1973
+  short: CrPC
+  year: 1973
+  status: repealed
+  replaced_by: bnss
+  aliases: [crpc, cr.p.c., cr.p.c, code of criminal procedure]
+
+iea:
+  name: Indian Evidence Act, 1872
+  short: IEA
+  year: 1872
+  status: repealed
+  replaced_by: bsa
+  aliases: [iea, indian evidence act, evidence act]
