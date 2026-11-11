@@ -24,9 +24,10 @@ Retrieval-grounded legal assistant over Indian law. Statutes first (BNS / BNSS /
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[ml,llm,dev]"
 cp .env.example .env          # add GROQ_API_KEY
-pytest                        # 59 tests, no model downloads needed
+pytest                        # 85 tests, offline, no model downloads needed
 
-mkdir -p data/raw             # your law data goes here (gitignored)
+# get the law text (see "Getting the law text" below), or drop your own files into data/raw/
+legalbot scrape --act bns --list
 
 # 1. chunk only, inspect the output and the QA report first
 legalbot ingest data/raw/bns.pdf --act bns --dry-run
@@ -43,6 +44,29 @@ legalbot serve                # http://127.0.0.1:8000/docs
 ```
 
 Add new Acts in `src/legalbot/data/acts.yaml` before ingesting them.
+
+## Getting the law text: `legalbot scrape`
+
+```bash
+export LEGALBOT_CONTACT="you@example.com"      # goes into the User-Agent so site admins can reach you
+
+legalbot scrape --act bns --list                # preview candidate PDF links, downloads nothing
+legalbot scrape --act bns                       # fetch via data/sources.yaml  -> data/raw/bns.pdf
+legalbot scrape --act bnss --url https://.../bnss.pdf          # you found the PDF yourself
+legalbot scrape --act bnss --url https://.../act-page --page --pick 1   # crawl a page for PDF links
+legalbot scrape --act bns --text                # also write extracted text to inspect before ingesting
+```
+
+What it does, and will not skip:
+- **Obeys robots.txt** on every host and every redirect hop. If robots.txt can't be fetched, the site is treated as off-limits (the error says which case you hit).
+- **Rate-limited** to one request per 2 s per host (or the site's `Crawl-delay`), retries with backoff, honours `Retry-After`.
+- **Cached** on disk (`.cache/http`), so re-running never re-hits the site; `--refresh` overrides.
+- **Validates** that the download is a real PDF (not a login or captcha page) and warns if it looks scanned and needs OCR.
+- **Writes provenance** next to the file (`bns.pdf.meta.json`: source URL, time, SHA-256, user agent), so you can cite where every Act came from.
+
+Stick to official sources (India Code, legislative.gov.in, MHA, egazette.gov.in). Read each site's terms before bulk downloading. Court judgments for Phase 3 will need their own adapters (and their own terms checks).
+
+**Not tested against live sites.** The scraper's tests run against mocked HTTP only, and `data/sources.yaml` has one unconfirmed entry (the India Code BNS page: confirmed to be the right Act, but not confirmed to expose a PDF link in plain HTML; India Code builds some pages with JavaScript). If `--list` shows nothing, open the page in your browser, copy the PDF link, and use `--url`.
 
 ## Data format the chunker expects
 

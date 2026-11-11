@@ -1,0 +1,20 @@
+# Where to fetch each Act from. Keys are act_ids from acts.yaml.
+#
+#   kind: pdf   fetch the URL directly
+#   kind: page  fetch the page and look for PDF / bitstream links on it
+#               (optional: link_pattern, include, exclude regexes; pick: N to choose the Nth link)
+#
+# Only entries someone has actually checked belong here. Preview before downloading:
+#   legalbot scrape --act bns --list
+# If an entry fails, open the page in a browser, copy the PDF link and use:
+#   legalbot scrape --act bns --url <pdf-url>
+
+bns:
+  - kind: page
+    url: https://www.indiacode.nic.in/handle/123456789/20062
+    note: India Code page for the Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023). The page itself was confirmed to be BNS; how it exposes its PDF links has NOT been confirmed.
+    exclude: hindi|हिन्दी
+
+# bnss, bsa, ipc, crpc, iea: add entries after you have found and checked the official page.
+# India Code handle numbers differ per Act and some handles are state versions of the same Act
+# (e.g. a Maharashtra copy of the BNS), so confirm the title and issuing authority on the page.

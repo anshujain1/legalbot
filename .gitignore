@@ -6,5 +6,6 @@ __pycache__/
 
 # local vector store and corpus (never commit raw law data or indexes)
 .qdrant/
+.cache/
 data/raw/
 data/processed/

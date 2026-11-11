@@ -41,6 +41,66 @@ def _cmd_ingest(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_scrape(args: argparse.Namespace) -> int:
+    from .scrape import (
+        AmbiguousLinks,
+        PoliteClient,
+        RobotsBlocked,
+        Scraper,
+        ScrapeError,
+        SourceSpec,
+        load_manifest,
+    )
+
+    registry = ActRegistry.load()
+    if args.act not in registry:
+        print(f"error: unknown act '{args.act}'. Add it to acts.yaml first.", file=sys.stderr)
+        return 2
+
+    if args.url:
+        specs = [SourceSpec(url=args.url, kind="page" if args.page else "pdf")]
+    else:
+        specs = load_manifest(args.manifest).get(args.act, [])
+        if not specs:
+            print(
+                f"error: no source for '{args.act}' in the manifest. Find the official PDF, then run:\n"
+                f"  legalbot scrape --act {args.act} --url <pdf-url>",
+                file=sys.stderr,
+            )
+            return 2
+
+    client = PoliteClient(cache_dir=args.cache_dir, min_delay=args.delay)
+    scraper = Scraper(client, out_dir=args.out_dir)
+    try:
+        for spec in specs:
+            if args.list:
+                for i, link in enumerate(scraper.discover(spec, refresh=args.refresh), 1):
+                    print(f"{i}. {link.url}  {link.text}")
+                continue
+            try:
+                saved = scraper.fetch(args.act, spec, pick=args.pick, refresh=args.refresh, write_text=args.text)
+            except AmbiguousLinks as exc:
+                print(f"{exc}\n", file=sys.stderr)
+                for i, link in enumerate(exc.links, 1):
+                    print(f"  {i}. {link.url}  {link.text}", file=sys.stderr)
+                return 3
+            print(f"Saved {saved.path} ({saved.bytes:,} bytes, {saved.pages} pages) from {saved.url}")
+            print(f"Provenance: {saved.meta_path}")
+            for w in saved.warnings:
+                print(f"WARNING: {w}")
+            print(f"Next: legalbot ingest {saved.text_path or saved.path} --act {args.act} --dry-run")
+            return 0
+        return 0
+    except RobotsBlocked as exc:
+        print(f"Blocked by robots.txt, not fetching: {exc}", file=sys.stderr)
+        return 4
+    except ScrapeError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+    finally:
+        client.close()
+
+
 def _cmd_search(args: argparse.Namespace) -> int:
     from .pipeline import build_bot
 
@@ -98,6 +158,20 @@ def main(argv: list[str] | None = None) -> int:
     ing.add_argument("--out", default=None, help="chunks.jsonl path (default data/processed/<act>.chunks.jsonl)")
     ing.add_argument("--dry-run", action="store_true", help="chunk and report only; do not embed or index")
     ing.set_defaults(fn=_cmd_ingest)
+
+    sc = sub.add_parser("scrape", help="download an Act's official PDF into data/raw (obeys robots.txt, rate-limited, cached)")
+    sc.add_argument("--act", required=True, help="act id from acts.yaml, e.g. bns")
+    sc.add_argument("--url", default=None, help="fetch this URL instead of the manifest entry (PDF link by default)")
+    sc.add_argument("--page", action="store_true", help="with --url: treat it as a page and look for PDF links on it")
+    sc.add_argument("--list", action="store_true", help="only list candidate file links, download nothing")
+    sc.add_argument("--pick", type=int, default=None, help="choose the Nth candidate when a page has several")
+    sc.add_argument("--refresh", action="store_true", help="ignore the on-disk cache and fetch again")
+    sc.add_argument("--text", action="store_true", help="also write extracted text next to the PDF for inspection")
+    sc.add_argument("--delay", type=float, default=2.0, help="minimum seconds between requests to one host")
+    sc.add_argument("--manifest", default=None, help="sources.yaml path (default: the packaged one)")
+    sc.add_argument("--out-dir", default="data/raw")
+    sc.add_argument("--cache-dir", default=".cache/http")
+    sc.set_defaults(fn=_cmd_scrape)
 
     se = sub.add_parser("search", help="retrieve sections for a query")
     se.add_argument("query")
