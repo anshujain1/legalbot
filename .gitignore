@@ -9,7 +9,7 @@ __pycache__/
 .cache/
 data/raw/
 data/processed/
-
+desktop.ini
 web/node_modules/
 web/.next/
 web/.env.local
