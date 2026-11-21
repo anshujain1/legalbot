@@ -56,6 +56,45 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
     #0b1220;
   position: relative; overflow: hidden; border: 1px solid #1c2638;
 }
+
+.hero {
+  border-radius: 20px;
+  overflow: hidden;
+
+  background-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.12),
+    inset 0 0 20px rgba(255, 255, 255, 0.06);
+
+  animation: subtleFloat 6s ease-in-out infinite;
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.hero:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(100, 130, 255, 0.18);
+}
+
+@keyframes subtleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    animation: none;
+  }
+}
+
 .hero-code {
   position: absolute; inset: 0; padding: 18px 22px; text-align: left;
   font-family: ui-monospace, Consolas, monospace; font-size: 11px; line-height: 1.7;
