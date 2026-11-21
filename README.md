@@ -111,6 +111,18 @@ question ──► QueryAnalyzer ──► filters + pinned sections ───�
 
 See [docs/API.md](docs/API.md): CORS setup, optional API key, TypeScript types, and how to render cited answers.
 
+## 🎥 Demo
+
+Watch the working demonstration of LegalBot:
+
+[▶ Watch LegalBot Demo](https://drive.google.com/file/d/1UiI67zWfMW_n73M26IVfOFXGRUlDJWao/view?usp=drive_link)
+
+The video demonstrates the application's workflow, document processing,
+and question-answering capabilities.
+
+For the complete implementation and setup instructions, 
+refer to the repository source code.
+
 ## Known limitations (read before trusting it)
 
 - **The parser is validated on one real compilation (BNS, India Code export):** 358/358 sections, no stubs, no leaked headings. BNSS (531 sections) and BSA (170) have not been run yet; expect small fixes on each new Act. `--dry-run` and the QA report are how you find them.
