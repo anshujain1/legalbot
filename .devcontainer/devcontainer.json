@@ -6,7 +6,7 @@
       "version": "20"
     }
   },
-  "postCreateCommand": "pip install -r backend/requirements.txt && cd frontend && npm install",
+  "postCreateCommand": "pip install -e \".[ml,llm,dev]\" && cd web && npm install",
   "forwardPorts": [8000, 3000, 6333],
   "customizations": {
     "vscode": {

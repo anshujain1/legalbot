@@ -1,0 +1,139 @@
+diff --git a/src/legalbot/api.py b/src/legalbot/api.py
+index afc76b0..5a7fb0f 100644
+--- a/src/legalbot/api.py
++++ b/src/legalbot/api.py
+@@ -33,6 +33,19 @@ class AskRequest(BaseModel):
+     filters: SearchFilters | None = None
+ 
+ 
++class ChatTurn(BaseModel):
++    role: str
++    content: str | None = None  # some frontends send "content",
++    text: str | None = None  # others send "text"
++
++
++class ChatRequest(BaseModel):
++    message: str = Field(min_length=2)
++    history: list[ChatTurn] = Field(default_factory=list)  # accepted but unused: the pipeline is stateless for now
++    conversation_id: str | None = None
++    k: int = Field(default=8, ge=1, le=30)
++
++
+ def create_app(bot: LegalBot | None = None, settings: Settings | None = None) -> FastAPI:
+     settings = settings or get_settings()
+     app = FastAPI(title="LegalBot", version=__version__)
+@@ -97,4 +110,46 @@ def create_app(bot: LegalBot | None = None, settings: Settings | None = None) ->
+             raise HTTPException(status_code=404, detail=f"{act_id.upper()} section {section_no} not found in corpus")
+         return [to_source(h) for h in hits]
+ 
++    @app.post("/chat", dependencies=guarded)
++    @app.post("/api/chat", dependencies=guarded)
++    def chat(req: ChatRequest) -> dict:
++        """Chat-shaped wrapper around /ask for frontends that POST {message, history} and read {reply, sources}."""
++        try:
++            a = get_bot().ask(req.message, None, req.k)
++        except LLMNotConfigured as exc:
++            raise HTTPException(status_code=503, detail=str(exc)) from exc
++        shown = a.answer
++        if a.warnings:
++            shown += "\n\n" + "\n".join(f"Warning: {w}" for w in a.warnings)
++        if a.notes:
++            shown += "\n\n" + "\n".join(f"Note: {n}" for n in a.notes)
++        shown += f"\n\n{a.disclaimer}"
++        seen: set[str] = set()
++        sources = []
++        for s in a.sources:
++            if s.label in seen:  # a long section arrives as several parts; list it once
++                continue
++            seen.add(s.label)
++            sources.append(
++                {
++                    "title": f"{s.label}: {s.section_title}" if s.section_title else s.label,
++                    "label": s.label,
++                    "act_id": s.act_id,
++                    "section_no": s.section_no,
++                    "snippet": s.text[:400],
++                    "via": s.via,
++                }
++            )
++        return {
++            "reply": shown,  # plain-text frontends read this
++            "answer": shown,  # ...or this
++            "raw_answer": a.answer,  # richer UIs: answer text without the appended warnings/notes/disclaimer
++            "sources": sources,
++            "verified": a.verified,
++            "insufficient": a.insufficient,
++            "warnings": a.warnings,
++            "notes": a.notes,
++            "disclaimer": a.disclaimer,
++        }
++
+     return app
+diff --git a/tests/test_chat_endpoint.py b/tests/test_chat_endpoint.py
+new file mode 100644
+index 0000000..b610f4f
+--- /dev/null
++++ b/tests/test_chat_endpoint.py
+@@ -0,0 +1,62 @@
++"""The /chat wrapper: what chat-style frontends send and read."""
++import pytest
++from fastapi.testclient import TestClient
++from qdrant_client import QdrantClient
++
++from legalbot.api import create_app
++from legalbot.chunking import parse_statute
++from legalbot.concordance import Concordance
++from legalbot.config import Settings
++from legalbot.embeddings import HashEmbedder
++from legalbot.pipeline import LegalBot
++from legalbot.registry import ActRegistry
++from legalbot.store import QdrantStore
++
++
++class FakeLLM:
++    def __init__(self, reply):
++        self.reply = reply
++
++    def complete(self, system, user):
++        return self.reply
++
++
++def make_client(sample_text, sample_act, llm):
++    store = QdrantStore(Settings(collection="t"), HashEmbedder(), client=QdrantClient(":memory:"))
++    store.upsert(parse_statute(sample_text, sample_act))
++    bot = LegalBot(store, ActRegistry([sample_act]), Concordance.load(), llm=llm)
++    return TestClient(create_app(bot, Settings()))
++
++
++@pytest.mark.parametrize("path", ["/chat", "/api/chat"])
++def test_chat_returns_reply_and_titled_sources(sample_text, sample_act, path):
++    c = make_client(sample_text, sample_act, FakeLLM("Theft is punished under [SMP §4]."))
++    body = {"message": "punishment for theft", "history": [{"role": "user", "text": "hi"}, {"role": "ai", "text": "hello"}]}
++    r = c.post(path, json=body)
++    assert r.status_code == 200
++    data = r.json()
++    assert data["reply"] == data["answer"] and "[SMP §4]" in data["reply"]
++    assert data["raw_answer"] == "Theft is punished under [SMP §4]."
++    assert data["disclaimer"] in data["reply"]
++    assert data["sources"] and all(s["title"] and s["snippet"] for s in data["sources"])
++    labels = [s["label"] for s in data["sources"]]
++    assert len(labels) == len(set(labels))  # parts of a split section are listed once
++
++
++def test_chat_accepts_content_style_history(sample_text, sample_act):
++    c = make_client(sample_text, sample_act, FakeLLM("Theft is punished under [SMP §4]."))
++    body = {"message": "punishment for theft", "history": [{"role": "user", "content": "hi"}], "conversation_id": "abc"}
++    assert c.post("/api/chat", json=body).status_code == 200
++
++
++def test_chat_without_llm_is_503_with_a_readable_detail(sample_text, sample_act):
++    r = make_client(sample_text, sample_act, None).post("/chat", json={"message": "punishment for theft"})
++    assert r.status_code == 503 and "GROQ_API_KEY" in r.json()["detail"]
++
++
++def test_chat_respects_the_api_key(sample_text, sample_act):
++    store = QdrantStore(Settings(collection="t"), HashEmbedder(), client=QdrantClient(":memory:"))
++    store.upsert(parse_statute(sample_text, sample_act))
++    bot = LegalBot(store, ActRegistry([sample_act]), Concordance.load(), llm=FakeLLM("x [SMP §4]"))
++    c = TestClient(create_app(bot, Settings(api_key="k")))
++    assert c.post("/chat", json={"message": "theft"}).status_code == 401
