@@ -35,5 +35,8 @@ jobs:
           cache-dependency-path: web/legalbot-frontend/package-lock.json
 
       - run: npm ci
+        working-directory: web/legalbot-frontend
       - run: npx tsc --noEmit
+
       - run: npm run build
+        working-directory: web/legalbot-frontend
