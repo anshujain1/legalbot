@@ -33,6 +33,19 @@ class AskRequest(BaseModel):
     filters: SearchFilters | None = None
 
 
+class ChatTurn(BaseModel):
+    role: str
+    content: str | None = None  # some frontends send "content",
+    text: str | None = None  # others send "text"
+
+
+class ChatRequest(BaseModel):
+    message: str = Field(min_length=2)
+    history: list[ChatTurn] = Field(default_factory=list)  # accepted but unused: the pipeline is stateless for now
+    conversation_id: str | None = None
+    k: int = Field(default=8, ge=1, le=30)
+
+
 def create_app(bot: LegalBot | None = None, settings: Settings | None = None) -> FastAPI:
     settings = settings or get_settings()
     app = FastAPI(title="LegalBot", version=__version__)
@@ -96,5 +109,47 @@ def create_app(bot: LegalBot | None = None, settings: Settings | None = None) ->
         if not hits:
             raise HTTPException(status_code=404, detail=f"{act_id.upper()} section {section_no} not found in corpus")
         return [to_source(h) for h in hits]
+
+    @app.post("/chat", dependencies=guarded)
+    @app.post("/api/chat", dependencies=guarded)
+    def chat(req: ChatRequest) -> dict:
+        """Chat-shaped wrapper around /ask for frontends that POST {message, history} and read {reply, sources}."""
+        try:
+            a = get_bot().ask(req.message, None, req.k)
+        except LLMNotConfigured as exc:
+            raise HTTPException(status_code=503, detail=str(exc)) from exc
+        shown = a.answer
+        if a.warnings:
+            shown += "\n\n" + "\n".join(f"Warning: {w}" for w in a.warnings)
+        if a.notes:
+            shown += "\n\n" + "\n".join(f"Note: {n}" for n in a.notes)
+        shown += f"\n\n{a.disclaimer}"
+        seen: set[str] = set()
+        sources = []
+        for s in a.sources:
+            if s.label in seen:  # a long section arrives as several parts; list it once
+                continue
+            seen.add(s.label)
+            sources.append(
+                {
+                    "title": f"{s.label}: {s.section_title}" if s.section_title else s.label,
+                    "label": s.label,
+                    "act_id": s.act_id,
+                    "section_no": s.section_no,
+                    "snippet": s.text[:400],
+                    "via": s.via,
+                }
+            )
+        return {
+            "reply": shown,  # plain-text frontends read this
+            "answer": shown,  # ...or this
+            "raw_answer": a.answer,  # richer UIs: answer text without the appended warnings/notes/disclaimer
+            "sources": sources,
+            "verified": a.verified,
+            "insufficient": a.insufficient,
+            "warnings": a.warnings,
+            "notes": a.notes,
+            "disclaimer": a.disclaimer,
+        }
 
     return app
